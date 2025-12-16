@@ -16,7 +16,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Install Rust
       uses: dtolnay/rust-toolchain@stable
@@ -29,19 +29,19 @@ jobs:
         sudo apt-get install -y clang libclang-dev llvm-dev pkg-config
 
     - name: Cache Cargo registry
-      uses: actions/cache@v3
+      uses: actions/cache@v5
       with:
         path: ~/.cargo/registry
         key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
 
     - name: Cache Cargo index
-      uses: actions/cache@v3
+      uses: actions/cache@v5
       with:
         path: ~/.cargo/git
         key: ${{ runner.os }}-cargo-index-${{ hashFiles('**/Cargo.lock') }}
 
     - name: Cache target directory
-      uses: actions/cache@v3
+      uses: actions/cache@v5
       with:
         path: target
         key: ${{ runner.os }}-target-${{ hashFiles('**/Cargo.lock') }}
@@ -65,7 +65,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Install Rust
       uses: dtolnay/rust-toolchain@stable
@@ -81,7 +81,7 @@ jobs:
       run: cargo build --release -p solochain-template-node --manifest-path=luxbin-chain/Cargo.toml
 
     - name: Upload node binary
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v6
       with:
         name: luxbin-node
         path: target/release/solochain-template-node
@@ -92,7 +92,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Install Rust
       uses: dtolnay/rust-toolchain@stable
