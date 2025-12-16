@@ -61,11 +61,12 @@ Validator → Generate temporal key (use current time) → Prove timestamp → V
 - Human-readable and aesthetically beautiful
 - Quantum-resistant by design
 
-**3. Proof-of-Time Consensus**
-- Validators prove current timestamp with temporal keys
-- No energy-intensive mining
-- Byzantine fault tolerant
-- Fast finality (<2 seconds)
+**3. Lightning Diamond Device (LDD) Consensus**
+- Revolutionary crystallographic consensus: Ψ(t) = C(t) · R(t) · D(t) · B(t) · I(t)
+- Models blockchain as solid-state physics system
+- Time-based validation with diamond stability, quartz resonance, defect entropy, boundary coupling, and interface diffusion
+- No energy-intensive mining, quantum-resistant, Byzantine fault tolerant
+- Ultra-fast finality (<2 seconds)
 
 ---
 
@@ -84,8 +85,8 @@ Validator → Generate temporal key (use current time) → Prove timestamp → V
 │  └───────────────────────────────────────────────┘ │
 │                        ↓                            │
 │  ┌───────────────────────────────────────────────┐ │
-│  │     Temporal Consensus (Proof-of-Time)       │ │
-│  │     • Time-based block validation            │ │
+│  │     LDD Consensus (Crystallographic)         │ │
+│  │     • Ψ(t) = C·R·D·B·I state function        │ │
 │  │     • Network time synchronization           │ │
 │  │     • Temporal key generation                │ │
 │  └───────────────────────────────────────────────┘ │
@@ -142,7 +143,7 @@ cargo build --release
 
 | Feature | Specification |
 |---------|--------------|
-| **Consensus** | Proof-of-Time (PoT) |
+| **Consensus** | Lightning Diamond Device (LDD) |
 | **Block Time** | <2 seconds |
 | **Finality** | Instant (network time consensus) |
 | **TPS** | 10,000+ (target) |
