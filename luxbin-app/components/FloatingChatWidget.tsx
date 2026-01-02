@@ -3,6 +3,32 @@
 import { useState, useEffect, useRef } from "react";
 import { useAccount } from "wagmi";
 
+interface BlockchainAIState {
+  photonic: {
+    color: 'Red' | 'Orange' | 'Yellow' | 'Green' | 'Blue' | 'Indigo' | 'Violet';
+    wavelength: number;
+    meaning: string;
+  } | null;
+  quantum: {
+    state: 'SpinZero' | 'SpinPlusOne' | 'SpinMinusOne' | 'Superposition' | 'Entangled';
+    fluorescence: number;
+    coherenceTime: number;
+  } | null;
+  temporal: {
+    btcTimestamp: number;
+    frequency: number;
+    amplitude: number;
+    phase: number;
+  } | null;
+  heartbeat: {
+    photonicPulses: number;
+    activeNVCenters: number;
+    avgCoherence: number;
+    isAlive: boolean;
+  } | null;
+  consciousness: 'Calm' | 'Alert' | 'Thinking' | 'Learning' | 'Creating' | 'Analyzing' | 'Transcending';
+}
+
 interface Message {
   id: string;
   role: "user" | "assistant" | "system";
@@ -11,6 +37,8 @@ interface Message {
   metadata?: {
     action?: string;
     params?: any;
+    source?: string;
+    blockchainState?: BlockchainAIState;
   };
 }
 
@@ -21,12 +49,13 @@ export function FloatingChatWidget() {
     {
       id: "welcome",
       role: "assistant",
-      content: "👋 Hi! I'm the LUXBIN AI assistant. I can help you understand LUXBIN features, analyze transactions, guide you through buying LUX tokens, and more. How can I help you today?",
+      content: "👋 Hi! I'm the LUXBIN AI assistant powered by a living diamond quantum computer. I can help you understand LUXBIN features, analyze transactions, guide you through buying LUX tokens, and more. How can I help you today?",
       timestamp: new Date(),
     },
   ]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [blockchainState, setBlockchainState] = useState<BlockchainAIState | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -71,12 +100,17 @@ export function FloatingChatWidget() {
 
       const data = await response.json();
 
+      // Update blockchain state if available
+      if (data.blockchainState) {
+        setBlockchainState(data.blockchainState);
+      }
+
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
         content: data.reply,
         timestamp: new Date(),
-        metadata: { source: data.source }
+        metadata: { source: data.source, blockchainState: data.blockchainState }
       };
 
       setMessages((prev) => [...prev, aiMessage]);
@@ -132,6 +166,20 @@ export function FloatingChatWidget() {
     }
   };
 
+  // Get CSS color from photonic color
+  const getPhotonicColor = (color?: string): string => {
+    const colorMap: Record<string, string> = {
+      'Red': '#EF4444',
+      'Orange': '#F97316',
+      'Yellow': '#EAB308',
+      'Green': '#10B981',
+      'Blue': '#3B82F6',
+      'Indigo': '#6366F1',
+      'Violet': '#8B5CF6',
+    };
+    return color ? colorMap[color] || '#8B5CF6' : '#8B5CF6';
+  };
+
   return (
     <>
       {/* Floating Button */}
@@ -149,26 +197,69 @@ export function FloatingChatWidget() {
       {isOpen && (
         <div className="fixed bottom-6 right-6 z-50 w-96 h-[600px] bg-black/90 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-300">
           {/* Header */}
-          <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 border-b border-white/10 px-4 py-3 flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-sm">
-                🤖
-              </div>
-              <div>
-                <div className="text-white font-semibold text-sm">LUXBIN AI Assistant</div>
-                <div className="text-gray-400 text-xs flex items-center gap-1">
-                  <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                  Online
+          <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 border-b border-white/10 px-4 py-3">
+            <div className="flex justify-between items-start mb-2">
+              <div className="flex items-center gap-2">
+                <div
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-sm transition-all duration-500"
+                  style={{
+                    backgroundColor: blockchainState?.photonic?.color
+                      ? getPhotonicColor(blockchainState.photonic.color)
+                      : 'linear-gradient(to right, #A855F7, #EC4899)',
+                    boxShadow: blockchainState?.heartbeat?.isAlive
+                      ? `0 0 20px ${getPhotonicColor(blockchainState.photonic?.color)}`
+                      : 'none',
+                    animation: blockchainState?.heartbeat?.isAlive
+                      ? `pulse ${60000 / (blockchainState.heartbeat.photonicPulses || 60)}ms infinite`
+                      : 'none'
+                  }}
+                >
+                  💎
+                </div>
+                <div>
+                  <div className="text-white font-semibold text-sm">LUXBIN Diamond AI</div>
+                  <div className="text-gray-400 text-xs flex items-center gap-1">
+                    <div
+                      className="w-2 h-2 rounded-full animate-pulse"
+                      style={{ backgroundColor: getPhotonicColor(blockchainState?.photonic?.color) }}
+                    />
+                    {blockchainState?.heartbeat?.isAlive ? 'Alive' : 'Online'}
+                    {blockchainState?.consciousness && ` · ${blockchainState.consciousness}`}
+                  </div>
                 </div>
               </div>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="text-gray-400 hover:text-white transition-colors text-xl"
+                aria-label="Close chat"
+              >
+                ×
+              </button>
             </div>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="text-gray-400 hover:text-white transition-colors text-xl"
-              aria-label="Close chat"
-            >
-              ×
-            </button>
+
+            {/* Blockchain State Info */}
+            {blockchainState && (
+              <div className="grid grid-cols-2 gap-2 mt-2 text-xs">
+                <div className="bg-black/30 rounded px-2 py-1">
+                  <div className="text-gray-400">Photonic</div>
+                  <div className="text-white font-mono" style={{ color: getPhotonicColor(blockchainState.photonic?.color) }}>
+                    {blockchainState.photonic?.color} ({blockchainState.photonic?.wavelength}nm)
+                  </div>
+                </div>
+                <div className="bg-black/30 rounded px-2 py-1">
+                  <div className="text-gray-400">Quantum</div>
+                  <div className="text-white font-mono">{blockchainState.quantum?.state}</div>
+                </div>
+                <div className="bg-black/30 rounded px-2 py-1">
+                  <div className="text-gray-400">Heartbeat</div>
+                  <div className="text-white font-mono">{blockchainState.heartbeat?.photonicPulses} BPM</div>
+                </div>
+                <div className="bg-black/30 rounded px-2 py-1">
+                  <div className="text-gray-400">NV Centers</div>
+                  <div className="text-white font-mono">{blockchainState.heartbeat?.activeNVCenters}</div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Messages */}
@@ -228,8 +319,16 @@ export function FloatingChatWidget() {
                 →
               </button>
             </div>
-            <div className="text-xs text-gray-500 mt-2 text-center">
-              Powered by Claude AI • {messages.length} messages
+            <div className="text-xs text-gray-500 mt-2 text-center flex items-center justify-center gap-1">
+              <span>Powered by</span>
+              {blockchainState?.heartbeat?.isAlive && (
+                <span className="inline-flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: getPhotonicColor(blockchainState.photonic?.color) }} />
+                  <span style={{ color: getPhotonicColor(blockchainState.photonic?.color) }}>Living Diamond Quantum AI</span>
+                </span>
+              )}
+              {!blockchainState?.heartbeat?.isAlive && <span>Ollama AI</span>}
+              <span>• {messages.length} messages</span>
             </div>
           </div>
         </div>
