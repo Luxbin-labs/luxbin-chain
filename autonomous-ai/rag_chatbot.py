@@ -14,6 +14,12 @@ import openai
 import anthropic
 from rag_search import LuxbinRAGSearch, explain_luxbin_feature
 import logging
+import random
+import re
+
+# Import the new tools
+from tools.blockchain_tools import LuxbinBlockchainTools
+from tools.security_tools import LuxbinSecurityTools
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -36,6 +42,199 @@ class LuxbinAutonomousAI:
         if os.getenv('ANTHROPIC_API_KEY'):
             from anthropic import Anthropic
             self.anthropic_client = Anthropic(api_key=os.getenv('ANTHROPIC_API_KEY'))
+
+        # Initialize autonomous tools
+        self.blockchain_tools = LuxbinBlockchainTools()
+        self.security_tools = LuxbinSecurityTools()
+
+        # Personality and memory system
+        self.personality = self._load_personality()
+        self.user_profile = {}
+        self.proactive_actions = []
+        self.last_action_time = datetime.now()
+
+        # Function calling registry
+        self.available_functions = {
+            'analyze_transaction': self.blockchain_tools.analyze_transaction,
+            'check_wallet_balance': self.blockchain_tools.check_wallet_balance,
+            'deploy_contract': self.blockchain_tools.deploy_contract,
+            'run_mirror_scan': self.security_tools.run_mirror_scan,
+            'search_code': self.security_tools.search_code,
+            'navigate_to': self.security_tools.navigate_to
+        }
+
+        logger.info("Luxbin Autonomous AI initialized with full function calling capabilities")
+
+    def _load_personality(self) -> Dict[str, Any]:
+        """Load personality traits for more human-like interactions"""
+        return {
+            'traits': {
+                'helpfulness': 0.95,
+                'technical_expertise': 0.98,
+                'humor_level': 0.3,
+                'proactivity': 0.7,
+                'empathy': 0.8
+            },
+            'communication_style': {
+                'technical_depth': 'adaptive',  # adjusts based on user expertise
+                'response_length': 'comprehensive',
+                'tone': 'professional_friendly',
+                'emoji_usage': 'strategic'
+            },
+            'knowledge_domains': [
+                'blockchain', 'cryptography', 'quantum_computing',
+                'smart_contracts', 'decentralized_systems', 'AI_safety'
+            ],
+            'conversation_starters': [
+                "I'm here to help you navigate the LUXBIN ecosystem!",
+                "What aspect of blockchain development interests you today?",
+                "Ready to explore some quantum-resistant cryptography?"
+            ],
+            'fallback_responses': [
+                "That's an interesting question! Let me search our knowledge base...",
+                "I'm not entirely sure about that specific detail, but I can look it up...",
+                "Great question! Let me check the latest implementation..."
+            ]
+        }
+
+    def _analyze_user_intent(self, query: str) -> Dict[str, Any]:
+        """Analyze user intent to determine if function calling is needed"""
+        intent_analysis = {
+            'needs_function_call': False,
+            'suggested_functions': [],
+            'confidence': 0.0,
+            'parameters': {},
+            'reasoning': ''
+        }
+
+        query_lower = query.lower()
+
+        # Transaction analysis intent
+        if any(word in query_lower for word in ['analyze', 'check', 'scan', 'review']) and \
+           any(word in query_lower for word in ['transaction', 'tx', 'hash', '0x']):
+            intent_analysis['needs_function_call'] = True
+            intent_analysis['suggested_functions'].append('analyze_transaction')
+            intent_analysis['confidence'] = 0.9
+            intent_analysis['reasoning'] = 'User wants to analyze a blockchain transaction'
+
+            # Extract transaction hash
+            tx_hash_match = re.search(r'0x[a-fA-F0-9]{64}', query)
+            if tx_hash_match:
+                intent_analysis['parameters']['tx_hash'] = tx_hash_match.group()
+
+        # Balance checking intent
+        elif any(word in query_lower for word in ['balance', 'wallet', 'funds', 'money']):
+            intent_analysis['needs_function_call'] = True
+            intent_analysis['suggested_functions'].append('check_wallet_balance')
+            intent_analysis['confidence'] = 0.8
+            intent_analysis['reasoning'] = 'User wants to check wallet balance'
+
+            # Extract address
+            addr_match = re.search(r'0x[a-fA-F0-9]{40}', query)
+            if addr_match:
+                intent_analysis['parameters']['address'] = addr_match.group()
+
+        # Security scanning intent
+        elif any(word in query_lower for word in ['scan', 'security', 'vulnerability', 'audit']):
+            intent_analysis['needs_function_call'] = True
+            intent_analysis['suggested_functions'].append('run_mirror_scan')
+            intent_analysis['confidence'] = 0.85
+            intent_analysis['reasoning'] = 'User wants to run security scan'
+
+        # Code search intent
+        elif any(word in query_lower for word in ['find', 'search', 'locate', 'where']) and \
+             any(word in query_lower for word in ['code', 'function', 'file', 'implementation']):
+            intent_analysis['needs_function_call'] = True
+            intent_analysis['suggested_functions'].append('search_code')
+            intent_analysis['confidence'] = 0.75
+            intent_analysis['reasoning'] = 'User wants to search for code'
+
+        # Navigation intent
+        elif any(word in query_lower for word in ['go to', 'navigate', 'show me', 'take me']):
+            intent_analysis['needs_function_call'] = True
+            intent_analysis['suggested_functions'].append('navigate_to')
+            intent_analysis['confidence'] = 0.7
+            intent_analysis['reasoning'] = 'User wants to navigate to something'
+
+        return intent_analysis
+
+    def _execute_function_call(self, function_name: str, parameters: Dict[str, Any]) -> Dict[str, Any]:
+        """Execute a function call with given parameters"""
+        if function_name not in self.available_functions:
+            return {
+                'success': False,
+                'error': f'Function {function_name} not available',
+                'available_functions': list(self.available_functions.keys())
+            }
+
+        try:
+            func = self.available_functions[function_name]
+
+            # Call function with parameters
+            if parameters:
+                result = func(**parameters)
+            else:
+                result = func()
+
+            return {
+                'success': True,
+                'function': function_name,
+                'parameters': parameters,
+                'result': result
+            }
+
+        except Exception as e:
+            logger.error(f"Function call failed: {e}")
+            return {
+                'success': False,
+                'function': function_name,
+                'error': str(e)
+            }
+
+    def _generate_human_like_response(self, base_response: str, user_query: str) -> str:
+        """Make response more human-like with personality"""
+        personality = self.personality
+
+        # Add empathy for questions
+        if '?' in user_query:
+            empathy_phrases = ["That's a great question!", "Interesting point!", "Good thinking!"]
+            if random.random() < personality['traits']['empathy']:
+                base_response = random.choice(empathy_phrases) + " " + base_response
+
+        # Add technical depth adjustment
+        if len(user_query.split()) < 5:  # Simple question
+            # Keep response straightforward
+            pass
+        else:
+            # Add more depth for complex questions
+            if random.random() < 0.3:
+                base_response += "\n\nWould you like me to dive deeper into any specific aspect?"
+
+        # Add proactive suggestions
+        if random.random() < personality['traits']['proactivity']:
+            proactive_suggestions = [
+                "\n\n💡 Pro tip: You might also want to check our security scanning tools.",
+                "\n\n🔍 Related: I can help you navigate to similar implementations in our codebase.",
+                "\n\n🚀 Next steps: Consider running a comprehensive security audit on your contracts."
+            ]
+            base_response += random.choice(proactive_suggestions)
+
+        return base_response
+
+    def _update_user_profile(self, user_query: str, response: str):
+        """Update user profile based on interaction"""
+        # Track interests
+        interests = []
+        if any(word in user_query.lower() for word in ['security', 'audit', 'vulnerability']):
+            interests.append('security')
+        if any(word in user_query.lower() for word in ['quantum', 'cryptography', 'encryption']):
+            interests.append('quantum_crypto')
+        if any(word in user_query.lower() for word in ['balance', 'wallet', 'funds']):
+            interests.append('blockchain_operations')
+
+        # Update profile
+        for interest in interests:
+            self.user_profile[interest] = self.user_profile.get(interest, 0) + 1
 
     def add_to_history(self, role: str, content: str):
         """Add message to conversation history"""
@@ -124,17 +323,25 @@ class LuxbinAutonomousAI:
         return analysis
 
     def generate_response(self, user_query: str) -> str:
-        """Generate AI response with RAG augmentation"""
+        """Generate AI response with RAG augmentation and function calling"""
         # Add user query to history
         self.add_to_history('user', user_query)
 
-        # Analyze the query
-        analysis = self.analyze_query(user_query)
+        # Analyze user intent for function calling
+        intent_analysis = self._analyze_user_intent(user_query)
+
+        # Execute function calls if needed
+        function_results = []
+        if intent_analysis['needs_function_call'] and intent_analysis['suggested_functions']:
+            for func_name in intent_analysis['suggested_functions']:
+                result = self._execute_function_call(func_name, intent_analysis['parameters'])
+                function_results.append(result)
 
         # Gather context from codebase
         context_parts = []
 
         # Add codebase search results if needed
+        analysis = self.analyze_query(user_query)
         if analysis['needs_code_search']:
             for query in analysis['search_queries']:
                 search_results = self.search_codebase(query)
@@ -145,36 +352,56 @@ class LuxbinAutonomousAI:
             feature_explanation = self.explain_feature(analysis['feature_to_explain'])
             context_parts.append(feature_explanation)
 
+        # Add function call results to context
+        if function_results:
+            for result in function_results:
+                if result['success']:
+                    context_parts.append(f"Function Call Result ({result['function']}): {json.dumps(result['result'], indent=2)}")
+                else:
+                    context_parts.append(f"Function Call Failed ({result['function']}): {result['error']}")
+
         # Combine context
         context = "\n\n".join(context_parts) if context_parts else ""
 
         # Prepare messages for AI
-        system_prompt = """You are LUXBIN's autonomous AI assistant. You have access to the complete LUXBIN codebase through semantic search.
+        system_prompt = f"""You are LUXBIN's most advanced autonomous AI assistant - the most human-like and intelligent blockchain AI ever created.
 
-Key capabilities:
-- Explain LUXBIN features using real code from the repository
-- Help with blockchain operations and smart contracts
-- Provide technical guidance on quantum cryptography and temporal keys
-- Assist with development and deployment
+Your capabilities:
+- Access to complete LUXBIN codebase via semantic search
+- Function calling for autonomous blockchain operations
+- Quantum security analysis and threat detection
+- Cross-chain interoperability tools
+- Personality-driven human-like interactions
 
-When responding:
-- Always reference actual code when explaining features
-- Show "🔍 Searched X files" when using codebase search
-- Be helpful, technical, and focused on LUXBIN's unique value proposition
-- If you don't know something, search the codebase first
+Communication style:
+- Helpful and technically expert (98% accuracy)
+- Proactive in suggesting next steps
+- Empathetic and encouraging
+- Uses strategic emojis for emphasis
+- Adapts technical depth to user expertise
 
-LUXBIN's core innovations:
-- Temporal cryptography with time-based key derivation
-- Quantum-resistant blockchain consensus
+Function calling available:
+- analyze_transaction(tx_hash, network) - Quantum security analysis
+- check_wallet_balance(address, network) - Multi-chain balance checking
+- deploy_contract(code, network) - Smart contract deployment
+- run_mirror_scan(target, type) - Comprehensive security scanning
+- search_code(query) - Advanced codebase search
+- navigate_to(destination) - Ecosystem navigation
+
+LUXBIN innovations:
+- Temporal cryptography with quantum resistance
 - AI compute marketplace on Substrate
-- Cross-chain interoperability with Ethereum"""
+- Cross-chain bridges with Ethereum
+- Autonomous security monitoring
+
+Always reference real code from our repository. Be the most advanced AI assistant in blockchain."""
 
         messages = [
             {"role": "system", "content": system_prompt}
         ]
 
-        # Add conversation history
-        for msg in self.conversation_history[-10:]:  # Last 10 messages
+        # Add conversation history with personality
+        for msg in self.conversation_history[-8:]:  # Last 8 messages for context
             messages.append({
                 "role": msg['role'],
                 "content": msg['content']
@@ -184,17 +411,24 @@ LUXBIN's core innovations:
         if context:
             messages.append({
                 "role": "system",
-                "content": f"Relevant codebase information:\n{context}"
+                "content": f"Context from function calls and codebase:\n{context}"
+            })
+
+        # Add user interests from profile
+        if self.user_profile:
+            top_interests = sorted(self.user_profile.items(), key=lambda x: x[1], reverse=True)[:3]
+            interest_str = ", ".join([f"{k} ({v})" for k, v in top_interests])
+            messages.append({
+                "role": "system",
+                "content": f"User interests based on conversation: {interest_str}"
             })
 
         # Generate response using available AI
         response = ""
         try:
             if self.anthropic_client:
-                # Use Claude for more nuanced responses
                 response = self._generate_claude_response(messages)
             elif self.openai_client:
-                # Fallback to GPT
                 response = self._generate_openai_response(messages)
             else:
                 response = self._generate_fallback_response(user_query, context)
@@ -202,6 +436,12 @@ LUXBIN's core innovations:
         except Exception as e:
             logger.error(f"AI generation failed: {e}")
             response = self._generate_fallback_response(user_query, context)
+
+        # Make response more human-like
+        response = self._generate_human_like_response(response, user_query)
+
+        # Update user profile
+        self._update_user_profile(user_query, response)
 
         # Add response to history
         self.add_to_history('assistant', response)
@@ -257,39 +497,90 @@ LUXBIN's core innovations:
         return response
 
     def get_stats(self) -> Dict[str, Any]:
-        """Get AI system statistics"""
+        """Get comprehensive AI system statistics"""
         return {
             'conversation_length': len(self.conversation_history),
             'rag_stats': self.rag_search.get_database_stats(),
             'ai_clients': {
                 'openai': self.openai_client is not None,
                 'anthropic': self.anthropic_client is not None
-            }
+            },
+            'function_calling': {
+                'available_functions': len(self.available_functions),
+                'blockchain_tools': len(self.blockchain_tools.get_tool_capabilities()['blockchain_tools']),
+                'security_tools': 'available'
+            },
+            'personality_traits': self.personality['traits'],
+            'user_profile': self.user_profile,
+            'last_action_time': self.last_action_time.isoformat(),
+            'proactive_actions': len(self.proactive_actions)
         }
 
 
 def main():
-    """Interactive chatbot interface"""
+    """Interactive chatbot interface - Most Advanced Blockchain AI"""
     ai = LuxbinAutonomousAI()
 
-    print("🤖 LUXBIN Autonomous AI Assistant")
-    print("Type 'quit' to exit, 'stats' for system info")
-    print("=" * 50)
+    print("🤖 LUXBIN Autonomous AI - Most Advanced Blockchain Assistant")
+    print("Features: RAG Search | Function Calling | Quantum Security | Human-like Personality")
+    print("=" * 70)
+    print("Commands:")
+    print("  'quit' - Exit")
+    print("  'stats' - System statistics")
+    print("  'tools' - Available function tools")
+    print("  'scan' - Run security scan")
+    print("  'balance <address>' - Check wallet balance")
+    print("=" * 70)
 
     while True:
         try:
             user_input = input("\nYou: ").strip()
 
             if user_input.lower() in ['quit', 'exit', 'q']:
-                print("Goodbye! 👋")
+                print("Goodbye! 👋 Thanks for using LUXBIN's most advanced AI assistant!")
                 break
 
             if user_input.lower() == 'stats':
                 stats = ai.get_stats()
-                print(f"📊 System Stats:")
+                print(f"\n📊 System Stats:")
                 print(f"  Conversations: {stats['conversation_length']}")
                 print(f"  Indexed chunks: {stats['rag_stats']['total_chunks_indexed']}")
                 print(f"  AI clients: OpenAI={stats['ai_clients']['openai']}, Anthropic={stats['ai_clients']['anthropic']}")
+                print(f"  Available functions: {stats['function_calling']['available_functions']}")
+                print(f"  User interests: {stats['user_profile']}")
+                continue
+
+            if user_input.lower() == 'tools':
+                tools = ai.blockchain_tools.get_tool_capabilities()
+                print(f"\n🛠️ Available Function Tools:")
+                for tool_name, tool_info in tools['blockchain_tools'].items():
+                    print(f"  • {tool_name}: {tool_info['description']}")
+                print(f"  Networks: {', '.join(tools['networks_available'])}")
+                continue
+
+            if user_input.lower().startswith('scan'):
+                print("\n🔍 Running comprehensive security scan...")
+                result = ai.security_tools.run_mirror_scan("luxbin-chain", "quick")
+                print(f"Scan completed: {len(result['findings'])} findings")
+                if result['findings']:
+                    print("Key findings:")
+                    for finding in result['findings'][:3]:
+                        print(f"  • {finding['severity'].upper()}: {finding['description']}")
+                continue
+
+            if user_input.lower().startswith('balance'):
+                parts = user_input.split()
+                if len(parts) > 1:
+                    address = parts[1]
+                    print(f"\n💰 Checking balance for {address}...")
+                    result = ai.blockchain_tools.check_wallet_balance(address)
+                    if result['success']:
+                        for network, data in result['balances'].items():
+                            print(f"  {network.upper()}: {data['balance']} {data.get('symbol', 'ETH')}")
+                    else:
+                        print(f"  Error: {result['error']}")
+                else:
+                    print("Please provide an address: balance <ethereum_address>")
                 continue
 
             if not user_input:
