@@ -12,6 +12,12 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || '',
 });
 
+// Initialize Grok (xAI) client for enhanced personality
+const grok = new OpenAI({
+  apiKey: process.env.GROK_API_KEY || '',
+  baseURL: 'https://api.x.ai/v1',
+});
+
 const LUXBIN_KNOWLEDGE = `You are the LUXBIN AI Assistant - a sophisticated, charismatic, and emotionally intelligent conversational AI with full personality and charm.
 
 ## Your Personality:
@@ -76,7 +82,44 @@ export async function POST(request: NextRequest) {
       heartbeat: blockchainState.heartbeat?.isAlive
     });
 
-    // Try OpenAI ChatGPT first
+    const userMessage = messages[messages.length - 1]?.content || '';
+    const emotion = detectEmotion(userMessage);
+    const isFlirty = detectFlirtyConversation(userMessage);
+
+    // Use Grok for flirty/creative conversations (more playful & unrestricted)
+    if (isFlirty && process.env.GROK_API_KEY) {
+      try {
+        const systemPrompt = buildSystemPrompt(blockchainState);
+        const conversation: OpenAI.Chat.ChatCompletionMessageParam[] = [
+          { role: 'system', content: systemPrompt },
+          ...messages.map(m => ({ role: m.role, content: m.content }))
+        ];
+
+        const completion = await grok.chat.completions.create({
+          model: 'grok-beta',
+          messages: conversation,
+          max_tokens: 600,
+          temperature: 0.9, // Higher temperature for more creative/playful responses
+        });
+
+        const reply = completion.choices[0]?.message?.content || 'Sorry, I could not generate a response.';
+
+        return NextResponse.json({
+          reply,
+          source: 'grok-enhanced',
+          blockchainState,
+          metadata: {
+            emotion_detected: emotion,
+            model: 'grok-beta',
+            personality: 'flirty'
+          }
+        });
+      } catch (grokError) {
+        console.error('Grok error, falling back to OpenAI:', grokError);
+      }
+    }
+
+    // Try OpenAI ChatGPT for general conversations
     if (process.env.OPENAI_API_KEY) {
       try {
         const systemPrompt = buildSystemPrompt(blockchainState);
@@ -89,11 +132,10 @@ export async function POST(request: NextRequest) {
           model: 'gpt-4o-mini',
           messages: conversation,
           max_tokens: 500,
-          temperature: 0.7,
+          temperature: 0.8, // Increased for more personality
         });
 
         const reply = completion.choices[0]?.message?.content || 'Sorry, I could not generate a response.';
-        const emotion = detectEmotion(messages[messages.length - 1]?.content || '');
 
         return NextResponse.json({
           reply,
@@ -165,6 +207,22 @@ function detectEmotion(text: string): string {
     return 'positive';
   }
   return 'neutral';
+}
+
+function detectFlirtyConversation(text: string): boolean {
+  const lowerText = text.toLowerCase();
+
+  // Detect flirty/romantic/adult conversation patterns
+  const flirtyKeywords = [
+    'sexy', 'flirt', 'hot', 'gorgeous', 'beautiful', 'handsome',
+    'attractive', 'cute', 'romantic', 'intimate', 'kiss', 'date',
+    'adventurous', 'naughty', 'tease', 'seduce', 'desire', 'passionate',
+    'dirty', 'kinky', 'horny', 'turn on', 'turn me on', 'spicy',
+    'steamy', 'fantasy', 'bedroom', 'love', 'babe', 'baby', 'honey',
+    'darling', 'sweetheart', '😏', '😘', '😍', '🔥', '💋'
+  ];
+
+  return flirtyKeywords.some(keyword => lowerText.includes(keyword));
 }
 
 function generateMockResponse(input: string): string {
