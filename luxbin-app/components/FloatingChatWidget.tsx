@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useAccount } from "wagmi";
+import { ChatbotAvatar } from "./ChatbotAvatar";
 
 interface BlockchainAIState {
   photonic: {
@@ -201,20 +202,18 @@ export function FloatingChatWidget() {
             <div className="flex justify-between items-start mb-2">
               <div className="flex items-center gap-2">
                 <div
-                  className="w-8 h-8 rounded-full flex items-center justify-center text-sm transition-all duration-500"
+                  className="transition-all duration-500"
                   style={{
-                    backgroundColor: blockchainState?.photonic?.color
-                      ? getPhotonicColor(blockchainState.photonic.color)
-                      : 'linear-gradient(to right, #A855F7, #EC4899)',
-                    boxShadow: blockchainState?.heartbeat?.isAlive
-                      ? `0 0 20px ${getPhotonicColor(blockchainState.photonic?.color)}`
+                    filter: blockchainState?.heartbeat?.isAlive
+                      ? `drop-shadow(0 0 20px ${getPhotonicColor(blockchainState.photonic?.color)})`
                       : 'none',
-                    animation: blockchainState?.heartbeat?.isAlive
-                      ? `pulse ${60000 / (blockchainState.heartbeat.photonicPulses || 60)}ms infinite`
-                      : 'none'
                   }}
                 >
-                  💎
+                  <ChatbotAvatar
+                    emotion={blockchainState?.consciousness?.toLowerCase() as any || "neutral"}
+                    isTyping={isLoading}
+                    size={50}
+                  />
                 </div>
                 <div>
                   <div className="text-white font-semibold text-sm">LUXBIN Diamond AI</div>
