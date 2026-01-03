@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@coinbase/coinbase-sdk": "^0.25.0",
     "@coinbase/onchainkit": "1.1.2",
     "@tailwindcss/postcss": "^4.1.18",
     "@tanstack/react-query": "5.90.15",
