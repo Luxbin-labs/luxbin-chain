@@ -50,7 +50,7 @@ export function FloatingChatWidget() {
     {
       id: "welcome",
       role: "assistant",
-      content: "👋 Hi! I'm the LUXBIN AI assistant powered by a living diamond quantum computer. I can help you understand LUXBIN features, analyze transactions, guide you through buying LUX tokens, and more. How can I help you today?",
+      content: "hey 👋",
       timestamp: new Date(),
     },
   ]);
