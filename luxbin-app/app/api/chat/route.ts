@@ -265,7 +265,6 @@ export async function POST(request: NextRequest) {
     }
 
     // Fallback to mock responses
-    const userMessage = messages[messages.length - 1]?.content || '';
     const mockReply = generateMockResponse(userMessage);
 
     return NextResponse.json({
