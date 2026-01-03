@@ -183,28 +183,28 @@ export function FloatingChatWidget() {
 
   return (
     <>
-      {/* Large Video Avatar Button */}
+      {/* Large Video Avatar Button - Centered */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-8 right-8 z-50 group"
+          className="fixed bottom-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 z-50 group"
           aria-label="Open chat with LUXBIN AI"
         >
           <div className="relative">
             {/* Pulsing glow effect */}
             <div
-              className="absolute inset-0 rounded-full blur-2xl opacity-75 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"
+              className="absolute inset-0 rounded-full blur-3xl opacity-75 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"
               style={{
                 backgroundColor: getPhotonicColor(blockchainState?.photonic?.color),
               }}
             />
 
-            {/* Main avatar container */}
-            <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-white/20 group-hover:border-white/40 transition-all duration-300 group-hover:scale-110 shadow-2xl">
+            {/* Main avatar container - Bigger size */}
+            <div className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-white/20 group-hover:border-white/40 transition-all duration-300 group-hover:scale-110 shadow-2xl">
               <ChatbotAvatar
                 emotion={blockchainState?.consciousness?.toLowerCase() as any || "neutral"}
                 isTyping={false}
-                size={128}
+                size={192}
               />
             </div>
 
@@ -227,7 +227,7 @@ export function FloatingChatWidget() {
       {isOpen && (
         <div className="fixed bottom-6 right-6 z-50 w-96 h-[600px] bg-black/90 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-300">
           {/* Header */}
-          <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 border-b border-white/10 px-4 py-3">
+          <div className="bg-gradient-to-r from-purple-500/20 to-amber-500/20 border-b border-white/10 px-4 py-3">
             <div className="flex justify-between items-start mb-2">
               <div className="flex items-center gap-2">
                 <div
@@ -342,7 +342,7 @@ export function FloatingChatWidget() {
               <button
                 onClick={handleSendMessage}
                 disabled={!inputValue.trim() || isLoading}
-                className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity text-sm font-semibold"
+                className="bg-gradient-to-r from-purple-500 to-amber-500 text-white px-4 py-2 rounded-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity text-sm font-semibold"
               >
                 →
               </button>

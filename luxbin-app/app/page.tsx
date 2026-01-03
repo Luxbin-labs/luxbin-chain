@@ -55,7 +55,7 @@ export default function Home() {
 
         <section className="relative px-6 pt-20 pb-32">
           <div className="max-w-6xl mx-auto text-center">
-            <h1 className="text-6xl md:text-8xl font-bold italic mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent leading-tight animate-glow">
+            <h1 className="text-6xl md:text-8xl font-bold italic mb-6 bg-gradient-to-r from-purple-400 via-amber-400 to-purple-400 bg-clip-text text-transparent leading-tight animate-glow">
               Meet LUXBIN AI
             </h1>
             <p className="text-2xl md:text-3xl text-gray-200 mb-4 font-light">
@@ -65,7 +65,7 @@ export default function Home() {
               Smart • Emotionally expressive • Web-connected intelligence
             </p>
             <div className="flex gap-4 justify-center flex-wrap mb-12">
-              <span className="px-6 py-3 bg-gradient-to-r from-purple-500/30 to-pink-500/30 border border-purple-400/50 rounded-xl text-purple-200 text-sm font-semibold">
+              <span className="px-6 py-3 bg-gradient-to-r from-purple-500/30 to-amber-500/30 border border-purple-400/50 rounded-xl text-purple-200 text-sm font-semibold">
                 🧠 ChatGPT + Grok Powered
               </span>
               <span className="px-6 py-3 bg-gradient-to-r from-blue-500/30 to-cyan-500/30 border border-blue-400/50 rounded-xl text-blue-200 text-sm font-semibold">
@@ -95,14 +95,14 @@ export default function Home() {
         <section className="relative px-6 py-20 bg-gradient-to-b from-transparent to-purple-900/10">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-5xl font-bold mb-4 bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent">
+              <h2 className="text-5xl font-bold mb-4 bg-gradient-to-r from-purple-300 to-amber-300 bg-clip-text text-transparent">
                 AI Capabilities
               </h2>
               <p className="text-gray-300 text-xl">Advanced intelligence with personality and real-time knowledge</p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-xl border border-purple-400/30 rounded-3xl p-8 hover:scale-105 transition-transform">
+              <div className="bg-gradient-to-br from-purple-500/10 to-amber-500/10 backdrop-blur-xl border border-purple-400/30 rounded-3xl p-8 hover:scale-105 transition-transform">
                 <div className="text-5xl mb-4">⚡</div>
                 <h3 className="text-2xl font-bold mb-3 text-purple-200">Hermetic Wisdom</h3>
                 <p className="text-gray-300 leading-relaxed">
@@ -110,9 +110,9 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="bg-gradient-to-br from-pink-500/10 to-red-500/10 backdrop-blur-xl border border-pink-400/30 rounded-3xl p-8 hover:scale-105 transition-transform">
+              <div className="bg-gradient-to-br from-amber-500/10 to-yellow-500/10 backdrop-blur-xl border border-amber-400/30 rounded-3xl p-8 hover:scale-105 transition-transform">
                 <div className="text-5xl mb-4">📜</div>
-                <h3 className="text-2xl font-bold mb-3 text-pink-200">Sacred Texts & Philosophy</h3>
+                <h3 className="text-2xl font-bold mb-3 text-amber-200">Sacred Texts & Philosophy</h3>
                 <p className="text-gray-300 leading-relaxed">
                   Expert knowledge of the Bible, Quran, Torah, Vedas, Bhagavad Gita, and esoteric wisdom. Discuss theology, mysticism, and ancient philosophy across all traditions.
                 </p>
@@ -256,16 +256,16 @@ export default function Home() {
                   <h4 className="font-bold text-purple-300 mb-1">Batch Ops</h4>
                   <p className="text-xs text-gray-300">Execute multiple actions at once</p>
                 </div>
-                <div className="p-4 bg-pink-500/10 border border-pink-500/30 rounded-xl">
+                <div className="p-4 bg-amber-500/10 border border-amber-500/30 rounded-xl">
                   <div className="text-2xl mb-2">🌉</div>
-                  <h4 className="font-bold text-pink-300 mb-1">Cross-Chain</h4>
+                  <h4 className="font-bold text-amber-300 mb-1">Cross-Chain</h4>
                   <p className="text-xs text-gray-300">Transfer between chains seamlessly</p>
                 </div>
               </div>
             </div>
 
             {/* Connection Instructions */}
-            <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-2xl p-8">
+            <div className="bg-gradient-to-r from-purple-500/10 to-amber-500/10 border border-purple-500/30 rounded-2xl p-8">
               <h3 className="text-2xl font-bold mb-4">🔌 Connect Your Wallet</h3>
               <div className="grid md:grid-cols-3 gap-6">
                 <div>
@@ -333,7 +333,7 @@ export default function Home() {
                   rel="noopener noreferrer"
                   className="block mb-4"
                 >
-                  <div className="bg-pink-500/10 border border-pink-500/30 rounded-xl p-6 hover:bg-pink-500/20 transition-all">
+                  <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-6 hover:bg-amber-500/20 transition-all">
                     <div className="text-4xl mb-3">🦄</div>
                     <h4 className="font-bold mb-2">Uniswap V3</h4>
                     <p className="text-sm text-gray-300">Best rates, deep liquidity</p>
@@ -406,13 +406,13 @@ export default function Home() {
         {/* Developer CTA */}
         <section className="relative px-6 py-20">
           <div className="max-w-4xl mx-auto">
-            <div className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/50 rounded-3xl p-12 text-center">
+            <div className="bg-gradient-to-r from-purple-600/20 to-amber-600/20 border border-purple-500/50 rounded-3xl p-12 text-center">
               <h2 className="text-4xl font-bold mb-4">Start Building Today</h2>
               <p className="text-xl text-gray-300 mb-8">
                 Deploy your first smart contract in minutes. Zero setup, zero fees, infinite possibilities.
               </p>
               <div className="flex gap-4 justify-center flex-wrap">
-                <Link href="/developers" className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl text-white font-bold text-lg hover:shadow-lg hover:shadow-purple-500/50 transition-all">
+                <Link href="/developers" className="px-8 py-4 bg-gradient-to-r from-purple-600 to-amber-600 rounded-xl text-white font-bold text-lg hover:shadow-lg hover:shadow-purple-500/50 transition-all">
                   📖 View Documentation
                 </Link>
                 <a href="https://github.com/mermaidnicheboutique-code/luxbin-chain" target="_blank" className="px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl font-bold text-lg transition-all">
