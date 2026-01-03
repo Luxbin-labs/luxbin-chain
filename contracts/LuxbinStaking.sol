@@ -22,8 +22,13 @@ contract LuxbinStaking {
     address public owner;
 
     // Staking parameters
-    uint256 public constant BASE_APY = 500; // 5% = 500 basis points
+    uint256 public constant INITIAL_BASE_APY = 500; // 5% = 500 basis points
     uint256 public constant HCT_BONUS_APY = 1000; // 10% = 1000 basis points per 0.1 HCT
+    uint256 public constant HALVING_PERIOD = 4 * 365 days; // 4 years like Bitcoin
+
+    // Current halving era
+    uint256 public currentHalving = 0;
+    uint256 public lastHalvingTime = block.timestamp;
 
     // User staking info
     struct StakeInfo {
@@ -40,6 +45,7 @@ contract LuxbinStaking {
     // Global stats
     uint256 public totalStaked;
     uint256 public totalRewardsDistributed;
+    uint256 public rewardPool; // Pre-minted LUX tokens held by contract for rewards
 
     // Events
     event Staked(address indexed user, uint256 amount);
@@ -48,6 +54,7 @@ contract LuxbinStaking {
     event HCTUpdated(address indexed user, uint256 newScore);
     event OracleAuthorized(address indexed oracle);
     event OracleRevoked(address indexed oracle);
+    event RewardsFunded(address indexed funder, uint256 amount);
 
     modifier onlyOwner() {
         require(msg.sender == owner, "Not owner");
@@ -63,6 +70,39 @@ contract LuxbinStaking {
         luxbin = LuxbinToken(_luxbinToken);
         owner = msg.sender;
         authorizedOracles[msg.sender] = true;
+    }
+
+    /**
+     * @notice Fund the reward pool with pre-minted LUX tokens
+     * @param amount Amount of LUX to add to rewards
+     */
+    function fundRewards(uint256 amount) external {
+        require(luxbin.transferFrom(msg.sender, address(this), amount), "Transfer failed");
+        rewardPool += amount;
+        emit RewardsFunded(msg.sender, amount);
+    }
+
+    /**
+     * @notice Get current base APY after halvings
+     */
+    function getCurrentBaseAPY() public view returns (uint256) {
+        uint256 halvings = (block.timestamp - lastHalvingTime) / HALVING_PERIOD;
+        if (halvings > currentHalving) {
+            halvings = currentHalving + 1; // Preview next halving
+        } else {
+            halvings = currentHalving;
+        }
+        return INITIAL_BASE_APY / (2 ** halvings);
+    }
+
+    /**
+     * @notice Manually trigger halving (for testing or if needed)
+     */
+    function triggerHalving() external onlyOwner {
+        uint256 timeSinceLast = block.timestamp - lastHalvingTime;
+        require(timeSinceLast >= HALVING_PERIOD, "Halving period not reached");
+        currentHalving++;
+        lastHalvingTime = block.timestamp;
     }
 
     /**
@@ -126,7 +166,8 @@ contract LuxbinStaking {
 
         // Calculate time-based rewards
         uint256 timeElapsed = block.timestamp - userStake.lastRewardClaim;
-        uint256 baseReward = (userStake.amount * BASE_APY * timeElapsed) / (365 days * 10000);
+        uint256 currentAPY = getCurrentBaseAPY();
+        uint256 baseReward = (userStake.amount * currentAPY * timeElapsed) / (365 days * 10000);
 
         // HCT bonus calculation
         uint256 hctBonus = 0;
@@ -138,9 +179,12 @@ contract LuxbinStaking {
         uint256 totalReward = baseReward + hctBonus + userStake.pendingRewards;
 
         if (totalReward > 0) {
-            // Mint new LUXBIN tokens as rewards
-            luxbin.mint(user, totalReward);
+            require(rewardPool >= totalReward, "Insufficient reward pool");
 
+            // Transfer LUXBIN tokens from reward pool
+            require(luxbin.transfer(user, totalReward), "Transfer failed");
+
+            rewardPool -= totalReward;
             userStake.pendingRewards = 0;
             userStake.lastRewardClaim = block.timestamp;
             totalRewardsDistributed += totalReward;
