@@ -16,11 +16,16 @@ export interface MemoryEntry {
   importance: number; // 0-100
   connections: string[]; // IDs of related memories
   photonicCode?: string;
-  metadata: {
+  metadata?: {
     model?: string;
     emotion?: string;
     user?: string;
     context?: any;
+    role?: string;
+    topic?: string;
+    source?: string;
+    spontaneous?: boolean;
+    [key: string]: any; // Allow additional metadata properties
   };
 }
 
