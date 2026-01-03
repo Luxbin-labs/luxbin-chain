@@ -383,7 +383,7 @@ export default function Home() {
                 <ul className="space-y-2 text-sm text-gray-400">
                   <li><a href="#" className="hover:text-white">Whitepaper</a></li>
                   <li><a href="#" className="hover:text-white">Brand Kit</a></li>
-                  <li><a href="#" className="hover:text-white">Media Kit</a></li>
+                  <li><Link href="/terms" className="hover:text-white">Terms of Service</Link></li>
                 </ul>
               </div>
             </div>
