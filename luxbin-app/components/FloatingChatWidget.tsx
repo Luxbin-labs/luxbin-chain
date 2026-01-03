@@ -40,6 +40,7 @@ interface Message {
     params?: any;
     source?: string;
     blockchainState?: BlockchainAIState;
+    contractCode?: string; // For generated contracts
   };
 }
 
@@ -305,6 +306,19 @@ export function FloatingChatWidget() {
                   }`}
                 >
                   <div className="text-sm whitespace-pre-wrap break-words">{message.content}</div>
+                  {message.metadata?.contractCode && (
+                    <div className="mt-3">
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(message.metadata.contractCode);
+                          alert("Contract code copied! Paste in Remix to deploy for FREE on Base.");
+                        }}
+                        className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-3 py-1 rounded-lg text-xs hover:opacity-80 transition-opacity"
+                      >
+                        📋 Copy & Deploy on Base
+                      </button>
+                    </div>
+                  )}
                   <div className="text-xs opacity-60 mt-1">
                     {message.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                   </div>

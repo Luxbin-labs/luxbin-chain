@@ -209,8 +209,11 @@ Provide only the complete Solidity code, no explanations.`;
         const contractCode = claudeResponse.content[0].type === 'text' ? claudeResponse.content[0].text : '';
 
         return NextResponse.json({
-          message: `I've generated a light-encoded smart contract for you! Here's the code:\n\n\`\`\`solidity\n${contractCode}\n\`\`\`\n\nTo deploy, copy this to Remix and deploy on Luxbin/Base. Would you like me to modify it?`,
+          message: `I've generated a light-encoded smart contract for you! Here's the code:\n\n\`\`\`solidity\n${contractCode}\n\`\`\`\n\n**Deploy for FREE on Base:**\n1. Copy the code above\n2. Go to https://remix.ethereum.org/\n3. Paste and compile\n4. Connect your wallet to Base network\n5. Deploy (gas-free with your credits!)\n\nOr tell me to modify it.`,
           blockchainState,
+          metadata: {
+            contractCode,
+          },
         });
       } catch (error) {
         console.error('Claude deployment error:', error);
