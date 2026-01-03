@@ -388,7 +388,7 @@ Built on the shoulders of giants:
 
 Join the LUXBIN community to discuss, contribute, and stay updated:
 
-- **Discord:** [Your Discord Invite Link] - Main community hub for discussions, support, and events
+- **Discord:** https://discord.gg/NVzEgsuW - Main community hub for discussions, support, and events
 - **GitHub Discussions:** [https://github.com/mermaidnicheboutique-code/luxbin-chain/discussions](https://github.com/mermaidnicheboutique-code/luxbin-chain/discussions) - Technical discussions and feature requests
 - **Twitter/X:** [Your Twitter Handle] - Updates, news, and announcements
 - **Forum:** [Coming soon] - In-depth discussions like Bitcoin's early forums
