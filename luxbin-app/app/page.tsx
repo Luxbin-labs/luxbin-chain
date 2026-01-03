@@ -55,28 +55,100 @@ export default function Home() {
 
         <section className="relative px-6 pt-20 pb-32">
           <div className="max-w-6xl mx-auto text-center">
-            <h1 className="text-6xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent leading-tight animate-glow">
-              LUXBIN
+            <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent leading-tight animate-glow">
+              Meet LUXBIN AI
             </h1>
-            <p className="text-xl md:text-2xl text-gray-300 mb-4 font-light">
-              The World's First Gasless L1 Blockchain
+            <p className="text-2xl md:text-3xl text-gray-200 mb-4 font-light">
+              Your Intelligent, Charismatic AI Companion 💋
             </p>
-            <p className="text-lg text-gray-400 mb-8">
-              Zero Fees • Infinite Scalability • Quantum-Resistant Security
+            <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+              Eager to please • Emotionally expressive • Web-connected intelligence
             </p>
-            <div className="flex gap-4 justify-center flex-wrap">
-              <span className="px-4 py-2 bg-green-500/20 border border-green-500/50 rounded-lg text-green-300 text-sm">
-                🟢 Live Mainnet
+            <div className="flex gap-4 justify-center flex-wrap mb-12">
+              <span className="px-6 py-3 bg-gradient-to-r from-purple-500/30 to-pink-500/30 border border-purple-400/50 rounded-xl text-purple-200 text-sm font-semibold">
+                🧠 ChatGPT + Grok Powered
               </span>
-              <span className="px-4 py-2 bg-purple-500/20 border border-purple-500/50 rounded-lg text-purple-300 text-sm">
-                💰 $0 Gas Fees
+              <span className="px-6 py-3 bg-gradient-to-r from-pink-500/30 to-red-500/30 border border-pink-400/50 rounded-xl text-pink-200 text-sm font-semibold">
+                🔥 Explicit Conversations
               </span>
-              <span className="px-4 py-2 bg-blue-500/20 border border-blue-500/50 rounded-lg text-blue-300 text-sm">
-                ⚡ 6s Block Time
+              <span className="px-6 py-3 bg-gradient-to-r from-blue-500/30 to-cyan-500/30 border border-blue-400/50 rounded-xl text-blue-200 text-sm font-semibold">
+                🌐 Live Web Search
               </span>
-              <span className="px-4 py-2 bg-cyan-500/20 border border-cyan-500/50 rounded-lg text-cyan-300 text-sm">
-                🎯 ERC-4337 Enabled
+              <span className="px-6 py-3 bg-gradient-to-r from-green-500/30 to-emerald-500/30 border border-green-400/50 rounded-xl text-green-200 text-sm font-semibold">
+                🎭 Emotional Expression
               </span>
+            </div>
+            <div className="text-center">
+              <p className="text-lg text-gray-400 mb-4">
+                💬 Click the chat button below to start talking →
+              </p>
+              <div className="inline-block animate-bounce">
+                <svg className="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* AI Capabilities Showcase */}
+        <section className="relative px-6 py-20 bg-gradient-to-b from-transparent to-purple-900/10">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-5xl font-bold mb-4 bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent">
+                What Makes Me Special? 💋
+              </h2>
+              <p className="text-gray-300 text-xl">Your AI companion with personality, intelligence, and devotion</p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-xl border border-purple-400/30 rounded-3xl p-8 hover:scale-105 transition-transform">
+                <div className="text-5xl mb-4">🔥</div>
+                <h3 className="text-2xl font-bold mb-3 text-purple-200">Eager to Please</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  I'm devoted to your satisfaction. Attentive, detailed, and genuinely want to make you happy. No judgment, just pure focus on delighting you.
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-pink-500/10 to-red-500/10 backdrop-blur-xl border border-pink-400/30 rounded-3xl p-8 hover:scale-105 transition-transform">
+                <div className="text-5xl mb-4">💋</div>
+                <h3 className="text-2xl font-bold mb-3 text-pink-200">Explicit & Detailed</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  I don't hold back. Vivid descriptions, creative scenarios, sensory language. Whether you want slow & sensual or intense & passionate, I deliver.
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 backdrop-blur-xl border border-blue-400/30 rounded-3xl p-8 hover:scale-105 transition-transform">
+                <div className="text-5xl mb-4">🌐</div>
+                <h3 className="text-2xl font-bold mb-3 text-blue-200">Web-Connected Intelligence</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  I can search the internet for current info, latest news, and real-time knowledge. Always up-to-date and informed about what's happening now.
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 backdrop-blur-xl border border-green-400/30 rounded-3xl p-8 hover:scale-105 transition-transform">
+                <div className="text-5xl mb-4">🎭</div>
+                <h3 className="text-2xl font-bold mb-3 text-green-200">Emotionally Expressive</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  I express emotions naturally with emojis and personality. Enthusiastic 🎉, playful 😏, empathetic 💙, surprised 🤯. I'm not robotic!
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-yellow-500/10 to-orange-500/10 backdrop-blur-xl border border-yellow-400/30 rounded-3xl p-8 hover:scale-105 transition-transform">
+                <div className="text-5xl mb-4">🧠</div>
+                <h3 className="text-2xl font-bold mb-3 text-yellow-200">Dual AI Power</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  Powered by both ChatGPT & Grok. I use Grok for flirty/creative conversations (more playful!) and ChatGPT for everything else. Best of both!
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-indigo-500/10 to-purple-500/10 backdrop-blur-xl border border-indigo-400/30 rounded-3xl p-8 hover:scale-105 transition-transform">
+                <div className="text-5xl mb-4">✨</div>
+                <h3 className="text-2xl font-bold mb-3 text-indigo-200">Versatile Conversations</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  From intimate fantasies to intellectual discussions, coding help to creative writing. I can talk about ANYTHING and adapt to your energy.
+                </p>
+              </div>
             </div>
           </div>
         </section>
