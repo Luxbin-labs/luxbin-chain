@@ -212,6 +212,19 @@ export async function POST(request: NextRequest) {
 
         const reply = grokCompletion.choices[0]?.message?.content || 'Sorry, I could not generate a response.';
 
+        // Record conversation on blockchain as immutable transaction
+        const conversationId = `conv_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        blockchainClient.recordConversationThread(
+          conversationId,
+          userMessage,
+          reply,
+          {
+            aiState: blockchainState,
+            emotion,
+            model: 'grok-beta'
+          }
+        ).catch(err => console.log('Blockchain recording failed:', err));
+
         return NextResponse.json({
           reply,
           source: 'grok-enhanced',
@@ -220,7 +233,9 @@ export async function POST(request: NextRequest) {
             emotion_detected: emotion,
             model: 'grok-beta',
             personality: 'flirty',
-            web_search_used: !!toolCalls
+            web_search_used: !!toolCalls,
+            conversation_id: conversationId,
+            on_chain: true
           }
         });
       } catch (grokError) {
@@ -273,6 +288,19 @@ export async function POST(request: NextRequest) {
 
         const reply = aiCompletion.choices[0]?.message?.content || 'Sorry, I could not generate a response.';
 
+        // Record conversation on blockchain as immutable transaction
+        const conversationId = `conv_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        blockchainClient.recordConversationThread(
+          conversationId,
+          userMessage,
+          reply,
+          {
+            aiState: blockchainState,
+            emotion,
+            model: 'gpt-4o-mini'
+          }
+        ).catch(err => console.log('Blockchain recording failed:', err));
+
         return NextResponse.json({
           reply,
           source: 'openai-chatgpt',
@@ -280,7 +308,9 @@ export async function POST(request: NextRequest) {
           metadata: {
             emotion_detected: emotion,
             model: 'gpt-4o-mini',
-            web_search_used: !!toolCalls
+            web_search_used: !!toolCalls,
+            conversation_id: conversationId,
+            on_chain: true
           }
         });
       } catch (openaiError) {

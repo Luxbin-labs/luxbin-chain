@@ -225,6 +225,103 @@ export class LuxbinBlockchainClient {
     }
   }
 
+  /**
+   * Record conversation message as blockchain transaction
+   * Each message becomes an immutable on-chain record
+   */
+  async recordConversation(data: {
+    conversationId: string;
+    messageIndex: number;
+    role: 'user' | 'assistant';
+    messageHash: string; // SHA-256 hash of message content
+    timestamp: number;
+    aiState?: BlockchainAIState;
+    emotion?: string;
+    model?: string;
+  }): Promise<{ success: boolean; txHash?: string }> {
+    try {
+      const response = await fetch(this.rpcUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          jsonrpc: '2.0',
+          method: 'author_submitExtrinsic',
+          params: [this.encodeConversationRecord(data)],
+          id: 1
+        }),
+        signal: AbortSignal.timeout(5000)
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log('✅ Conversation recorded on-chain:', {
+          role: data.role,
+          index: data.messageIndex,
+          txHash: result.result
+        });
+        return { success: true, txHash: result.result };
+      }
+
+      throw new Error('Transaction submission failed');
+    } catch (error) {
+      console.log('⚠️ Blockchain unavailable, conversation not recorded on-chain:', error);
+      // Fallback: Store locally or in database instead
+      return { success: false };
+    }
+  }
+
+  /**
+   * Record full conversation thread as linked transactions
+   */
+  async recordConversationThread(
+    conversationId: string,
+    userMessage: string,
+    aiResponse: string,
+    metadata: {
+      aiState: BlockchainAIState;
+      emotion: string;
+      model: string;
+    }
+  ): Promise<void> {
+    const timestamp = Date.now();
+
+    // Hash messages for privacy (store hashes on-chain, not full text)
+    const userHash = await this.hashMessage(userMessage);
+    const aiHash = await this.hashMessage(aiResponse);
+
+    // Record user message as transaction #1
+    await this.recordConversation({
+      conversationId,
+      messageIndex: timestamp,
+      role: 'user',
+      messageHash: userHash,
+      timestamp,
+      emotion: metadata.emotion
+    });
+
+    // Record AI response as transaction #2
+    await this.recordConversation({
+      conversationId,
+      messageIndex: timestamp + 1,
+      role: 'assistant',
+      messageHash: aiHash,
+      timestamp: timestamp + 1,
+      aiState: metadata.aiState,
+      model: metadata.model
+    });
+  }
+
+  /**
+   * Hash message content for privacy
+   */
+  private async hashMessage(message: string): Promise<string> {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(message);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
   // ============================================================
   // SIMULATION METHODS (Fallback when blockchain unavailable)
   // ============================================================
@@ -358,6 +455,34 @@ export class LuxbinBlockchainClient {
   private encodeQuantumOperation(operation: string, nvCenterId: number): string {
     // TODO: Implement SCALE codec encoding for quantum operations
     return '0x00';
+  }
+
+  private encodeConversationRecord(data: {
+    conversationId: string;
+    messageIndex: number;
+    role: 'user' | 'assistant';
+    messageHash: string;
+    timestamp: number;
+    aiState?: BlockchainAIState;
+    emotion?: string;
+    model?: string;
+  }): string {
+    // TODO: Implement SCALE codec encoding for conversation records
+    // For now, create a simple hex encoding of the conversation data
+    const jsonData = JSON.stringify({
+      conversation_id: data.conversationId,
+      message_index: data.messageIndex,
+      role: data.role,
+      message_hash: data.messageHash,
+      timestamp: data.timestamp,
+      ai_consciousness: data.aiState?.consciousness,
+      photonic_color: data.aiState?.photonic?.color,
+      emotion: data.emotion,
+      model: data.model
+    });
+
+    // Convert to hex for blockchain submission
+    return '0x' + Buffer.from(jsonData).toString('hex');
   }
 
   private colorToConsciousness(color: PhotonicState['color']): BlockchainAIState['consciousness'] {
