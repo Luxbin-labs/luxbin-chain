@@ -150,7 +150,7 @@ const searchTool: OpenAI.Chat.ChatCompletionTool = {
 
 export async function POST(request: NextRequest) {
   try {
-    const { messages } = await request.json();
+    const { messages, characterId } = await request.json();
 
     if (!Array.isArray(messages) || messages.length === 0) {
       return NextResponse.json(
@@ -184,6 +184,14 @@ export async function POST(request: NextRequest) {
     const userMessage = messages[messages.length - 1]?.content || '';
     const emotion = detectEmotion(userMessage);
     const isFlirty = detectFlirtyConversation(userMessage);
+
+    // Load custom character if provided
+    let customCharacter = null;
+    if (characterId) {
+      // In production, fetch from database; here simulate localStorage
+      const characters = JSON.parse(process.env.LUXBIN_CHARACTERS || '[]');
+      customCharacter = characters.find((c: any) => c.id === characterId);
+    }
 
     // Check for contract deployment requests
     const isDeploymentRequest = /deploy|create|generate.*contract|smart contract/i.test(userMessage);
@@ -224,7 +232,18 @@ Provide only the complete Solidity code, no explanations.`;
     // Use Grok for flirty/creative conversations (more playful & unrestricted)
     if (isFlirty && process.env.GROK_API_KEY) {
       try {
-        const systemPrompt = buildSystemPrompt(blockchainState, learnedKnowledge);
+        let systemPrompt = buildSystemPrompt(blockchainState, learnedKnowledge);
+        if (customCharacter) {
+          systemPrompt = `You are ${customCharacter.name}, ${customCharacter.personality}.
+
+Backstory: ${customCharacter.backstory}
+
+Appearance: ${customCharacter.appearance}
+
+Special Ability: ${customCharacter.specialAbility} - you excel at deploying smart contracts with this focus.
+
+${systemPrompt}`;
+        }
         const conversation: OpenAI.Chat.ChatCompletionMessageParam[] = [
           { role: 'system', content: systemPrompt },
           ...messages.map(m => ({ role: m.role, content: m.content }))

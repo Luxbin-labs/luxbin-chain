@@ -47,6 +47,7 @@ interface Message {
 export function FloatingChatWidget() {
   const { address } = useAccount();
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedCharacter, setSelectedCharacter] = useState<any>(null);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome",
@@ -67,6 +68,14 @@ export function FloatingChatWidget() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  useEffect(() => {
+    // Load custom characters
+    const characters = JSON.parse(localStorage.getItem('luxbinCharacters') || '[]');
+    if (characters.length > 0) {
+      setSelectedCharacter(characters[0]); // Default to first
+    }
+  }, []);
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
@@ -92,7 +101,8 @@ export function FloatingChatWidget() {
           messages: [...messages, userMessage].map(m => ({
             role: m.role,
             content: m.content
-          }))
+          })),
+          characterId: selectedCharacter?.id
         }),
       });
 

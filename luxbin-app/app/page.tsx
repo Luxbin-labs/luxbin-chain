@@ -264,6 +264,15 @@ export default function Home() {
               </div>
             </div>
 
+            {/* Custom AI Section */}
+            <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 rounded-2xl p-8 mb-8">
+              <h3 className="text-2xl font-bold mb-4">🤖 Create Your AI Character</h3>
+              <p className="text-gray-300 mb-6">Design a personalized AI assistant that deploys smart contracts with your chosen personality and backstory.</p>
+              <Link href="/create-character" className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-6 py-3 rounded-lg font-bold hover:opacity-90 transition-opacity">
+                Create AI Character
+              </Link>
+            </div>
+
             {/* Connection Instructions */}
             <div className="bg-gradient-to-br from-purple-500/10 via-yellow-600/10 to-yellow-400/10 border border-yellow-500/30 rounded-2xl p-8 shadow-lg shadow-yellow-500/10">
               <h3 className="text-2xl font-bold mb-4">🔌 Connect Your Wallet</h3>
