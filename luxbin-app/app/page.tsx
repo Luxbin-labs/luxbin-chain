@@ -59,23 +59,23 @@ export default function Home() {
               Meet LUXBIN AI
             </h1>
             <p className="text-2xl md:text-3xl text-gray-200 mb-4 font-light">
-              Your Intelligent, Charismatic AI Companion 💋
+              Your Intelligent, Conversational AI Assistant
             </p>
             <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-              Eager to please • Emotionally expressive • Web-connected intelligence
+              Smart • Emotionally expressive • Web-connected intelligence
             </p>
             <div className="flex gap-4 justify-center flex-wrap mb-12">
               <span className="px-6 py-3 bg-gradient-to-r from-purple-500/30 to-pink-500/30 border border-purple-400/50 rounded-xl text-purple-200 text-sm font-semibold">
                 🧠 ChatGPT + Grok Powered
-              </span>
-              <span className="px-6 py-3 bg-gradient-to-r from-pink-500/30 to-red-500/30 border border-pink-400/50 rounded-xl text-pink-200 text-sm font-semibold">
-                🔥 Explicit Conversations
               </span>
               <span className="px-6 py-3 bg-gradient-to-r from-blue-500/30 to-cyan-500/30 border border-blue-400/50 rounded-xl text-blue-200 text-sm font-semibold">
                 🌐 Live Web Search
               </span>
               <span className="px-6 py-3 bg-gradient-to-r from-green-500/30 to-emerald-500/30 border border-green-400/50 rounded-xl text-green-200 text-sm font-semibold">
                 🎭 Emotional Expression
+              </span>
+              <span className="px-6 py-3 bg-gradient-to-r from-indigo-500/30 to-purple-500/30 border border-indigo-400/50 rounded-xl text-indigo-200 text-sm font-semibold">
+                💎 Blockchain-Powered
               </span>
             </div>
             <div className="text-center">
@@ -96,25 +96,25 @@ export default function Home() {
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-5xl font-bold mb-4 bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent">
-                What Makes Me Special? 💋
+                AI Capabilities
               </h2>
-              <p className="text-gray-300 text-xl">Your AI companion with personality, intelligence, and devotion</p>
+              <p className="text-gray-300 text-xl">Advanced intelligence with personality and real-time knowledge</p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
               <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-xl border border-purple-400/30 rounded-3xl p-8 hover:scale-105 transition-transform">
-                <div className="text-5xl mb-4">🔥</div>
-                <h3 className="text-2xl font-bold mb-3 text-purple-200">Eager to Please</h3>
+                <div className="text-5xl mb-4">⚡</div>
+                <h3 className="text-2xl font-bold mb-3 text-purple-200">Hermetic Wisdom</h3>
                 <p className="text-gray-300 leading-relaxed">
-                  I'm devoted to your satisfaction. Attentive, detailed, and genuinely want to make you happy. No judgment, just pure focus on delighting you.
+                  Deeply versed in all 7 Hermetic Principles from the Kybalion: Mentalism, Correspondence, Vibration, Polarity, Rhythm, Cause & Effect, and Gender. "As above, so below."
                 </p>
               </div>
 
               <div className="bg-gradient-to-br from-pink-500/10 to-red-500/10 backdrop-blur-xl border border-pink-400/30 rounded-3xl p-8 hover:scale-105 transition-transform">
-                <div className="text-5xl mb-4">💋</div>
-                <h3 className="text-2xl font-bold mb-3 text-pink-200">Explicit & Detailed</h3>
+                <div className="text-5xl mb-4">📜</div>
+                <h3 className="text-2xl font-bold mb-3 text-pink-200">Sacred Texts & Philosophy</h3>
                 <p className="text-gray-300 leading-relaxed">
-                  I don't hold back. Vivid descriptions, creative scenarios, sensory language. Whether you want slow & sensual or intense & passionate, I deliver.
+                  Expert knowledge of the Bible, Quran, Torah, Vedas, Bhagavad Gita, and esoteric wisdom. Discuss theology, mysticism, and ancient philosophy across all traditions.
                 </p>
               </div>
 
@@ -138,15 +138,15 @@ export default function Home() {
                 <div className="text-5xl mb-4">🧠</div>
                 <h3 className="text-2xl font-bold mb-3 text-yellow-200">Dual AI Power</h3>
                 <p className="text-gray-300 leading-relaxed">
-                  Powered by both ChatGPT & Grok. I use Grok for flirty/creative conversations (more playful!) and ChatGPT for everything else. Best of both!
+                  Powered by both ChatGPT & Grok. Advanced reasoning with creative intelligence for natural, human-like conversations on any topic.
                 </p>
               </div>
 
               <div className="bg-gradient-to-br from-indigo-500/10 to-purple-500/10 backdrop-blur-xl border border-indigo-400/30 rounded-3xl p-8 hover:scale-105 transition-transform">
                 <div className="text-5xl mb-4">✨</div>
-                <h3 className="text-2xl font-bold mb-3 text-indigo-200">Versatile Conversations</h3>
+                <h3 className="text-2xl font-bold mb-3 text-indigo-200">Truly Human Conversations</h3>
                 <p className="text-gray-300 leading-relaxed">
-                  From intimate fantasies to intellectual discussions, coding help to creative writing. I can talk about ANYTHING and adapt to your energy.
+                  The most human AI ever created. I understand nuance, adapt to your style, and engage in any conversation with genuine personality and depth.
                 </p>
               </div>
             </div>
