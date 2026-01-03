@@ -55,7 +55,7 @@ export default function Home() {
 
         <section className="relative px-6 pt-20 pb-32">
           <div className="max-w-6xl mx-auto text-center">
-            <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent leading-tight animate-glow">
+            <h1 className="text-6xl md:text-8xl font-bold italic mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent leading-tight animate-glow">
               Meet LUXBIN AI
             </h1>
             <p className="text-2xl md:text-3xl text-gray-200 mb-4 font-light">

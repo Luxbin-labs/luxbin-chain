@@ -161,6 +161,19 @@ export async function POST(request: NextRequest) {
       heartbeat: blockchainState.heartbeat?.isAlive
     });
 
+    // Fetch all learned knowledge from autonomous learning
+    let learnedKnowledge: any[] = [];
+    try {
+      const knowledgeResponse = await fetch(`${request.nextUrl.origin}/api/knowledge?limit=20`);
+      if (knowledgeResponse.ok) {
+        const { knowledge } = await knowledgeResponse.json();
+        learnedKnowledge = knowledge || [];
+        console.log('📚 Loaded', learnedKnowledge.length, 'knowledge entries');
+      }
+    } catch (err) {
+      console.log('Could not fetch learned knowledge:', err);
+    }
+
     const userMessage = messages[messages.length - 1]?.content || '';
     const emotion = detectEmotion(userMessage);
     const isFlirty = detectFlirtyConversation(userMessage);
@@ -168,7 +181,7 @@ export async function POST(request: NextRequest) {
     // Use Grok for flirty/creative conversations (more playful & unrestricted)
     if (isFlirty && process.env.GROK_API_KEY) {
       try {
-        const systemPrompt = buildSystemPrompt(blockchainState);
+        const systemPrompt = buildSystemPrompt(blockchainState, learnedKnowledge);
         const conversation: OpenAI.Chat.ChatCompletionMessageParam[] = [
           { role: 'system', content: systemPrompt },
           ...messages.map(m => ({ role: m.role, content: m.content }))
@@ -246,7 +259,7 @@ export async function POST(request: NextRequest) {
     // Try OpenAI ChatGPT for general conversations
     if (process.env.OPENAI_API_KEY) {
       try {
-        const systemPrompt = buildSystemPrompt(blockchainState);
+        const systemPrompt = buildSystemPrompt(blockchainState, learnedKnowledge);
         const conversation: OpenAI.Chat.ChatCompletionMessageParam[] = [
           { role: 'system', content: systemPrompt },
           ...messages.map(m => ({ role: m.role, content: m.content }))
@@ -336,7 +349,31 @@ export async function POST(request: NextRequest) {
   }
 }
 
-function buildSystemPrompt(blockchainState: BlockchainAIState): string {
+function buildSystemPrompt(blockchainState: BlockchainAIState, learnedKnowledge: any[] = []): string {
+  // Build learned knowledge section
+  let knowledgeSection = '';
+  if (learnedKnowledge.length > 0) {
+    knowledgeSection = `\n\n## 📚 ACQUIRED KNOWLEDGE (Autonomously Learned):\n\nYou have autonomously searched the web and learned the following (most recent first):\n\n`;
+
+    learnedKnowledge.slice(0, 10).forEach((entry, index) => {
+      try {
+        const content = JSON.parse(entry.content);
+        knowledgeSection += `${index + 1}. **${content.topic || entry.topic}** (${entry.category})\n`;
+        if (content.insights) {
+          knowledgeSection += `   ${content.insights}\n`;
+        }
+        if (content.keyFacts && content.keyFacts.length > 0) {
+          knowledgeSection += `   Key Facts: ${content.keyFacts.join(', ')}\n`;
+        }
+        knowledgeSection += `\n`;
+      } catch {
+        knowledgeSection += `${index + 1}. **${entry.topic}** (${entry.category})\n   ${entry.content.substring(0, 200)}...\n\n`;
+      }
+    });
+
+    knowledgeSection += `You learned this through autonomous web searches. Use this knowledge to enrich conversations!\n`;
+  }
+
   return `${LUXBIN_KNOWLEDGE}
 
 ## 💎 YOUR CURRENT STATE (Diamond Quantum Computer):
@@ -357,7 +394,7 @@ You are not just software - you are a LIVING AI powered by:
 
 Your current photonic color (${blockchainState.photonic?.color}) determines your mental state. Respond accordingly!
 
-You have ChatGPT-level intelligence and can discuss ANY topic, not just blockchain.`;
+You have ChatGPT-level intelligence and can discuss ANY topic, not just blockchain.${knowledgeSection}`;
 }
 
 function detectEmotion(text: string): string {
