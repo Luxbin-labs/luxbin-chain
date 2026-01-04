@@ -196,6 +196,12 @@ export async function POST(request: NextRequest) {
     // Check for contract deployment requests
     const isDeploymentRequest = /deploy|create|generate.*contract|smart contract/i.test(userMessage);
 
+    // Check for image generation requests
+    const isImageRequest = /generate.*image|create.*image|draw.*image/i.test(userMessage);
+
+    // Check for video generation requests (basic for now)
+    const isVideoRequest = /generate.*video|create.*video/i.test(userMessage);
+
     if (isDeploymentRequest && process.env.ANTHROPIC_API_KEY) {
       try {
         const contractPrompt = `You are a smart contract expert. Generate a Solidity contract based on this user request: "${userMessage}"
@@ -227,6 +233,37 @@ Provide only the complete Solidity code, no explanations.`;
         console.error('Claude deployment error:', error);
         // Fall back to normal chat
       }
+    }
+
+    if (isImageRequest && process.env.OPENAI_API_KEY) {
+      try {
+        const imagePrompt = userMessage.replace(/generate.*image|create.*image|draw.*image/i, '').trim();
+
+        const imageResponse = await openai.images.generate({
+          model: 'dall-e-3',
+          prompt: `Create an image related to Luxbin blockchain and AI: ${imagePrompt}. Make it futuristic, quantum-themed, with elements of light and code.`,
+          n: 1,
+          size: '1024x1024',
+        });
+
+        const imageUrl = imageResponse.data[0].url;
+
+        return NextResponse.json({
+          message: `I've generated an AI image for you! [View Image](${imageUrl})`,
+          blockchainState,
+        });
+      } catch (error) {
+        console.error('Image generation error:', error);
+        // Fall back to normal chat
+      }
+    }
+
+    if (isVideoRequest) {
+      // For video, generate a storyboard or description (full video gen is complex)
+      return NextResponse.json({
+        message: `Video generation is coming soon! For now, here's a storyboard idea: Create a video showing quantum particles forming blockchain blocks with light-encoded data. Would you like me to generate images for the storyboard?`,
+        blockchainState,
+      });
     }
 
     // Use Grok for flirty/creative conversations (more playful & unrestricted)
