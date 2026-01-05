@@ -9,6 +9,9 @@ publish = false
 workspace = true
 
 [dependencies]
+pallet-contracts = { version = "30.0.0", default-features = false }
+        pallet-contracts-primitives = { version = "29.0.0", default-features =
+    false }
 codec = { features = ["derive"], workspace = true }
 scale-info = { features = ["derive"], workspace = true }
 serde_json = { workspace = true }
