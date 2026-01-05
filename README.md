@@ -1,5 +1,6 @@
 # 🌟 LUXBIN Temporal Blockchain
 
+
 **Revolutionary blockchain powered by time-based cryptography and photonic encoding**
 
 [![Substrate](https://img.shields.io/badge/Substrate-Framework-blue)](https://substrate.io)
