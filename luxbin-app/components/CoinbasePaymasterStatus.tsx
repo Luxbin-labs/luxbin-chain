@@ -18,6 +18,7 @@ export function CoinbasePaymasterStatus() {
   });
 
   const [paymasterActive, setPaymasterActive] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     // Check if Paymaster is active
@@ -50,11 +51,36 @@ export function CoinbasePaymasterStatus() {
 
   // Always show the widget, even when wallet is not connected
   return (
-    <div className="fixed bottom-24 right-4 bg-gradient-to-br from-purple-900/90 to-blue-900/90 backdrop-blur-xl border border-purple-500/30 rounded-2xl p-6 shadow-2xl shadow-purple-500/20 max-w-sm z-[9999]">
-      <div className="flex items-center gap-3 mb-4">
-        <div className={`w-3 h-3 rounded-full ${paymasterActive ? 'bg-green-400 animate-pulse' : 'bg-gray-400'}`} />
-        <h3 className="text-lg font-bold text-white">Coinbase Paymaster</h3>
-      </div>
+    <div className="fixed bottom-24 right-4 z-[9999]">
+      {/* Collapsed state - small badge */}
+      {!isExpanded && (
+        <button
+          onClick={() => setIsExpanded(true)}
+          className="bg-gradient-to-br from-purple-900/90 to-blue-900/90 backdrop-blur-xl border border-purple-500/30 rounded-full px-4 py-2 shadow-2xl shadow-purple-500/20 hover:scale-105 transition-transform"
+        >
+          <div className="flex items-center gap-2">
+            <div className={`w-2 h-2 rounded-full ${paymasterActive ? 'bg-green-400 animate-pulse' : 'bg-gray-400'}`} />
+            <span className="text-sm font-semibold text-white">Paymaster</span>
+            <span className="text-xs text-purple-300">💰 {creditsInfo.remaining}</span>
+          </div>
+        </button>
+      )}
+
+      {/* Expanded state - full details */}
+      {isExpanded && (
+        <div className="bg-gradient-to-br from-purple-900/90 to-blue-900/90 backdrop-blur-xl border border-purple-500/30 rounded-2xl p-6 shadow-2xl shadow-purple-500/20 max-w-sm">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className={`w-3 h-3 rounded-full ${paymasterActive ? 'bg-green-400 animate-pulse' : 'bg-gray-400'}`} />
+              <h3 className="text-lg font-bold text-white">Coinbase Paymaster</h3>
+            </div>
+            <button
+              onClick={() => setIsExpanded(false)}
+              className="text-gray-400 hover:text-white transition-colors"
+            >
+              ✕
+            </button>
+          </div>
 
       <div className="space-y-3 text-sm">
         <div className="flex justify-between items-center">
@@ -119,6 +145,8 @@ export function CoinbasePaymasterStatus() {
           </p>
         </div>
       </div>
+        </div>
+      )}
     </div>
   );
 }
