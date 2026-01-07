@@ -33,15 +33,11 @@ export default function Home() {
             <nav className="hidden md:flex gap-6">
               {[
                 { name: "About", href: "/about" },
+                { name: "Quantum Blockchain", href: "/quantum-blockchain" },
                 { name: "Quantum AI", href: "/quantum-ai" },
-                { name: "Research", href: "/research" },
                 { name: "DNA Explorer", href: "/dna-explorer" },
-                { name: "Lightshow", href: "/lightshow" },
                 { name: "Omnichain", href: "/omnichain-dna" },
                 { name: "Chain Info", href: "#chain" },
-                { name: "Buy", href: "#buy" },
-                { name: "Deploy", href: "#deploy" },
-                { name: "Mirror", href: "/mirror" },
                 { name: "Developers", href: "/developers" }
               ].map((link) => (
                 link.href.startsWith('/') ? (

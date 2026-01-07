@@ -79,3 +79,4 @@ luxbin_mirror/
 
 # Rust build artifacts
 target/
+.vercel
