@@ -269,7 +269,16 @@
         // Initialize canvas
         document.addEventListener('DOMContentLoaded', () => {
             canvas = document.getElementById('wave-canvas');
+            if (!canvas) {
+                console.error('Canvas element not found!');
+                return;
+            }
             ctx = canvas.getContext('2d');
+            if (!ctx) {
+                console.error('Could not get canvas context!');
+                return;
+            }
+            console.log('Canvas initialized successfully');
             document.getElementById('input-text').value = 'HELLO QUANTUM';
             translate();
         });
@@ -392,7 +401,10 @@
         }
 
         function drawWaves(colors, amplitudes) {
-            if (!canvas || !ctx) return;
+            if (!canvas || !ctx) {
+                console.error('Canvas or context not available for drawing');
+                return;
+            }
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -573,6 +585,7 @@
         }
 
         function generateLightShow() {
+            console.log('Generate Light Show called');
             const input = document.getElementById('input-text').value;
             if (!input.trim()) {
                 alert('Please enter some text first!');
@@ -583,9 +596,13 @@
             const binary = textToBinary(input);
             const luxbin = binaryToLuxbin(binary);
             const { colors, wavelengths, frequencies, amplitudes } = luxbinToWaves(luxbin);
+            console.log('Wave data:', { colors, wavelengths, frequencies, amplitudes });
 
             // Start intense light show animation
-            if (animationId) cancelAnimationFrame(animationId);
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                console.log('Cancelled previous animation');
+            }
 
             let time = 0;
             function animate() {
@@ -594,22 +611,31 @@
 
                 // Add pulsing effect for light show
                 const intensity = 0.5 + 0.5 * Math.sin(time * 2);
-                document.querySelector('.wave-visualization').style.opacity = 0.8 + intensity * 0.2;
+                const waveViz = document.querySelector('.wave-visualization');
+                if (waveViz) {
+                    waveViz.style.opacity = 0.8 + intensity * 0.2;
+                }
 
                 animationId = requestAnimationFrame(animate);
             }
             animate();
+            console.log('Animation started');
 
             // Flash the step indicator
             const step4 = document.getElementById('step4');
-            step4.classList.add('active');
-            setTimeout(() => step4.classList.add('active'), 100);
-            setTimeout(() => step4.classList.remove('active'), 200);
-            setTimeout(() => step4.classList.add('active'), 300);
+            if (step4) {
+                step4.classList.add('active');
+                setTimeout(() => step4.classList.add('active'), 100);
+                setTimeout(() => step4.classList.remove('active'), 200);
+                setTimeout(() => step4.classList.add('active'), 300);
+            }
 
             // Auto-play audio if in audio mode
             if (currentMode !== 'photonic') {
-                setTimeout(() => playAudio(), 500);
+                setTimeout(() => {
+                    console.log('Auto-playing audio');
+                    playAudio();
+                }, 500);
             }
         }
 
