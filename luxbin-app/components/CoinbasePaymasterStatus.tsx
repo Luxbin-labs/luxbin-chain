@@ -24,8 +24,14 @@ export function CoinbasePaymasterStatus() {
     // Check if Paymaster is active
     const checkPaymaster = async () => {
       try {
+        const cdpApiKey = process.env.NEXT_PUBLIC_CDP_API_KEY;
+        if (!cdpApiKey) {
+          console.warn('CDP API key not configured');
+          return;
+        }
+
         const response = await fetch(
-          'https://api.developer.coinbase.com/rpc/v1/base/uYtF7xHARvwtLeF4VG08Ozpp6HOqBEHM',
+          `https://api.developer.coinbase.com/rpc/v1/base/${cdpApiKey}`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

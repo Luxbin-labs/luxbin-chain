@@ -4,6 +4,8 @@
 
 export function CoinbaseOnramp() {
   const handleBuyClick = () => {
+    const appId = process.env.NEXT_PUBLIC_COINBASE_PROJECT_ID || 'luxbin-app';
+
     // Coinbase Pay URL with proper encoding
     const destinationWallets = encodeURIComponent(JSON.stringify([{
       address: "0x66b4627B4Dd73228D24f24E844B6094091875169",
@@ -12,7 +14,7 @@ export function CoinbaseOnramp() {
 
     const assets = encodeURIComponent(JSON.stringify(["USDC", "ETH"]));
 
-    const onrampUrl = `https://pay.coinbase.com/buy?appId=luxbin-app&destinationWallets=${destinationWallets}&assets=${assets}&defaultNetwork=base`;
+    const onrampUrl = `https://pay.coinbase.com/buy?appId=${appId}&destinationWallets=${destinationWallets}&assets=${assets}&defaultNetwork=base`;
 
     window.open(onrampUrl, '_blank', 'width=500,height=700');
   };
