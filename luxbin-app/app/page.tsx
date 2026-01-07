@@ -9,6 +9,7 @@ import { FloatingChatWidget } from "@/components/FloatingChatWidget";
 import { TokenDeployer } from "@/components/TokenDeployer";
 import { NFTDeployer } from "@/components/NFTDeployer";
 import { CoinbasePaymasterStatus } from "@/components/CoinbasePaymasterStatus";
+import { DNABlockExplorer } from "@/components/DNABlockExplorer";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
@@ -41,8 +42,7 @@ export default function Home() {
                 { name: "Buy", href: "#buy" },
                 { name: "Deploy", href: "#deploy" },
                 { name: "Mirror", href: "/mirror" },
-                { name: "Developers", href: "/developers" },
-                { name: "API", href: "/api-docs" }
+                { name: "Developers", href: "/developers" }
               ].map((link) => (
                 link.href.startsWith('/') ? (
                   <Link key={link.name} href={link.href} className="text-gray-300 hover:text-white transition-colors text-sm font-medium">
@@ -93,6 +93,28 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                 </svg>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* DNA Helix Visualization */}
+        <section className="relative px-6 py-12">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-8">
+              <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                Live Blockchain DNA
+              </h2>
+              <p className="text-gray-300 text-lg">
+                Watch the LUXBIN blockchain in real-time as transactions flow through the network
+              </p>
+            </div>
+            <div className="bg-white/5 backdrop-blur-xl border border-purple-500/30 rounded-3xl p-2 shadow-2xl shadow-purple-500/20">
+              <DNABlockExplorer />
+            </div>
+            <div className="text-center mt-6">
+              <Link href="/dna-explorer" className="text-purple-400 hover:text-purple-300 text-sm">
+                View Full DNA Explorer →
+              </Link>
             </div>
           </div>
         </section>
