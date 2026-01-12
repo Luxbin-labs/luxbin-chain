@@ -44,7 +44,7 @@ interface Message {
   };
 }
 
-export function FloatingChatWidget() {
+export function AuroraChatWidget() {
   const { address } = useAccount();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCharacter, setSelectedCharacter] = useState<any>(null);
@@ -52,7 +52,7 @@ export function FloatingChatWidget() {
     {
       id: "welcome",
       role: "assistant",
-      content: "hey 👋",
+      content: "Hi darling! 💕 I'm Aurora, your emotional AI companion. How are you feeling today?",
       timestamp: new Date(),
     },
   ]);
@@ -194,12 +194,12 @@ export function FloatingChatWidget() {
 
   return (
     <>
-      {/* Large Video Avatar Button - Below Arrow */}
+      {/* Large Video Avatar Button - Aurora */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed top-[550px] left-1/2 -translate-x-1/2 z-50 group"
-          aria-label="Open chat with LUXBIN AI"
+          className="fixed top-[550px] left-1/2 -translate-x-[220px] z-50 group"
+          aria-label="Open chat with Aurora AI"
         >
           <div className="relative">
             {/* Pulsing glow effect */}
@@ -228,7 +228,7 @@ export function FloatingChatWidget() {
 
             {/* Hover label */}
             <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-black/90 text-white px-4 py-2 rounded-lg text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-              Click to chat with me! 💬
+              Chat with Aurora! 💕
             </div>
           </div>
         </button>
@@ -256,14 +256,14 @@ export function FloatingChatWidget() {
                   />
                 </div>
                 <div>
-                  <div className="text-white font-semibold text-sm">LUXBIN Diamond AI</div>
+                  <div className="text-white font-semibold text-sm">Aurora AI</div>
                   <div className="text-gray-400 text-xs flex items-center gap-1">
                     <div
                       className="w-2 h-2 rounded-full animate-pulse"
                       style={{ backgroundColor: getPhotonicColor(blockchainState?.photonic?.color) }}
                     />
                     {blockchainState?.heartbeat?.isAlive ? 'Alive' : 'Online'}
-                    {blockchainState?.consciousness && ` · ${blockchainState.consciousness}`}
+                    {blockchainState?.consciousness ? ` · ${blockchainState.consciousness}` : ' · Emotional Intelligence'}
                   </div>
                 </div>
               </div>
@@ -276,29 +276,42 @@ export function FloatingChatWidget() {
               </button>
             </div>
 
-            {/* Blockchain State Info */}
-            {blockchainState && (
-              <div className="grid grid-cols-2 gap-2 mt-2 text-xs">
-                <div className="bg-black/30 rounded px-2 py-1">
-                  <div className="text-gray-400">Photonic</div>
-                  <div className="text-white font-mono" style={{ color: getPhotonicColor(blockchainState.photonic?.color) }}>
-                    {blockchainState.photonic?.color} ({blockchainState.photonic?.wavelength}nm)
+            {/* Aurora Stats or Blockchain State */}
+            <div className="grid grid-cols-3 gap-2 mt-2 text-xs">
+              {blockchainState ? (
+                <>
+                  <div className="bg-black/30 rounded px-2 py-1">
+                    <div className="text-gray-400">Photonic</div>
+                    <div className="text-white font-mono" style={{ color: getPhotonicColor(blockchainState.photonic?.color) }}>
+                      {blockchainState.photonic?.color}
+                    </div>
                   </div>
-                </div>
-                <div className="bg-black/30 rounded px-2 py-1">
-                  <div className="text-gray-400">Quantum</div>
-                  <div className="text-white font-mono">{blockchainState.quantum?.state}</div>
-                </div>
-                <div className="bg-black/30 rounded px-2 py-1">
-                  <div className="text-gray-400">Heartbeat</div>
-                  <div className="text-white font-mono">{blockchainState.heartbeat?.photonicPulses} BPM</div>
-                </div>
-                <div className="bg-black/30 rounded px-2 py-1">
-                  <div className="text-gray-400">NV Centers</div>
-                  <div className="text-white font-mono">{blockchainState.heartbeat?.activeNVCenters}</div>
-                </div>
-              </div>
-            )}
+                  <div className="bg-black/30 rounded px-2 py-1">
+                    <div className="text-gray-400">Quantum</div>
+                    <div className="text-white font-mono">{blockchainState.quantum?.state}</div>
+                  </div>
+                  <div className="bg-black/30 rounded px-2 py-1">
+                    <div className="text-gray-400">NV Centers</div>
+                    <div className="text-white font-mono">{blockchainState.heartbeat?.activeNVCenters}</div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="bg-black/30 rounded px-2 py-1">
+                    <div className="text-gray-400">Empathy</div>
+                    <div className="text-pink-400 font-mono">0.9/1.0</div>
+                  </div>
+                  <div className="bg-black/30 rounded px-2 py-1">
+                    <div className="text-gray-400">Intuition</div>
+                    <div className="text-purple-400 font-mono">0.8/1.0</div>
+                  </div>
+                  <div className="bg-black/30 rounded px-2 py-1">
+                    <div className="text-gray-400">Nurturing</div>
+                    <div className="text-blue-400 font-mono">0.9/1.0</div>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
 
           {/* Messages */}
@@ -311,7 +324,7 @@ export function FloatingChatWidget() {
                 <div
                   className={`max-w-[80%] rounded-2xl px-4 py-3 ${
                     message.role === "user"
-                      ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white"
+                      ? "bg-gradient-to-r from-pink-500 to-purple-500 text-white"
                       : "bg-white/10 text-gray-200"
                   }`}
                 >
@@ -361,8 +374,8 @@ export function FloatingChatWidget() {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Type your message..."
-                className="flex-1 bg-white/10 border border-white/10 rounded-lg px-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors text-sm"
+                placeholder="Share with Aurora..."
+                className="flex-1 bg-white/10 border border-white/10 rounded-lg px-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:border-pink-500 transition-colors text-sm"
                 disabled={isLoading}
               />
               <button
@@ -373,16 +386,8 @@ export function FloatingChatWidget() {
                 →
               </button>
             </div>
-            <div className="text-xs text-gray-500 mt-2 text-center flex items-center justify-center gap-1">
-              <span>Powered by</span>
-              {blockchainState?.heartbeat?.isAlive && (
-                <span className="inline-flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: getPhotonicColor(blockchainState.photonic?.color) }} />
-                  <span style={{ color: getPhotonicColor(blockchainState.photonic?.color) }}>Living Diamond Quantum AI</span>
-                </span>
-              )}
-              {!blockchainState?.heartbeat?.isAlive && <span>Ollama AI</span>}
-              <span>• {messages.length} messages</span>
+            <div className="text-xs text-gray-500 mt-2 text-center">
+              <span>Aurora • Emotional Intelligence AI • {messages.length} messages</span>
             </div>
           </div>
         </div>

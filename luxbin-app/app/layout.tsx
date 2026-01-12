@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/lib/providers";
-import { FloatingChatWidget } from "@/components/FloatingChatWidget";
+import { AuroraChatWidget } from "@/components/FloatingChatWidget";
+import { AtlasChatWidget } from "@/components/AtlasChatWidget";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -10,8 +11,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "LUXBIN - Quantum-Secured Blockchain Token",
-  description: "LUXBIN (LUX) combines quantum cryptography, physics-based consensus, and biological security patterns. Live on Base Network.",
+  title: "NicheAI - Where Quantum AI Meets Blockchain Innovation",
+  description: "NicheAI combines quantum-powered AI companions (Aurora & Atlas) with the Luxbin gasless blockchain. Quantum cryptography meets emotional intelligence.",
   manifest: '/manifest.json',
   other: {
     'base:app_id': '695963dcc63ad876c9081f62',
@@ -47,7 +48,8 @@ export default function RootLayout({
       <body className={`${inter.variable} antialiased font-sans`}>
         <Providers>
           {children}
-          <FloatingChatWidget />
+          <AuroraChatWidget />
+          <AtlasChatWidget />
         </Providers>
       </body>
     </html>

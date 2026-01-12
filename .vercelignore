@@ -1,0 +1,24 @@
+# Ignore Next.js app
+luxbin-app/**
+
+# Ignore node modules and build artifacts
+node_modules/**
+.next/**
+
+# Ignore documentation
+*.md
+DEPLOYMENT.md
+
+# Ignore quantum results and large files
+quantum_results_*
+frankenstein_video.mp4
+
+# Ignore development files
+.env*
+*.log
+.DS_Store
+
+# Keep only Python API files
+!api/**
+!requirements.txt
+!vercel.json

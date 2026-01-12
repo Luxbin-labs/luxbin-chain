@@ -8,7 +8,6 @@ foundry.lock
 
 # Node.js
 node_modules/
-package-lock.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -80,3 +79,18 @@ luxbin_mirror/
 # Rust build artifacts
 target/
 .vercel
+.env*.local
+
+# Next.js
+.next/
+
+# Unreal Engine
+Documents/Unreal Projects/*/Saved/
+Documents/Unreal Projects/*/Intermediate/
+Documents/Unreal Projects/*/DerivedDataCache/
+
+# Epic Games Cache
+Library/Application Support/Epic/
+
+# Desktop temporary files
+Desktop/Other/

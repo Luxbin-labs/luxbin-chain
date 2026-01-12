@@ -5,7 +5,8 @@ import { BackgroundVideos } from "@/components/BackgroundVideos";
 import { LuxbinSwap } from "@/components/LuxbinSwap";
 import { CoinbaseOnramp } from "@/components/CoinbaseOnramp";
 import { LuxbinTokenLogoRotating, LuxbinTokenLogo } from "@/components/AnimatedTokenLogo";
-import { FloatingChatWidget } from "@/components/FloatingChatWidget";
+import { AuroraChatWidget } from "@/components/FloatingChatWidget";
+import { AtlasChatWidget } from "@/components/AtlasChatWidget";
 import { TokenDeployer } from "@/components/TokenDeployer";
 import { NFTDeployer } from "@/components/NFTDeployer";
 import { CoinbasePaymasterStatus } from "@/components/CoinbasePaymasterStatus";
@@ -22,44 +23,105 @@ export default function Home() {
       <FloatingParticles />
 
       <div className="relative" style={{ zIndex: 10 }}>
+        {/* Simplified Header */}
         <header className="sticky top-0 z-50 backdrop-blur-xl bg-black/20 border-b border-white/10">
-          <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <div className="max-w-full mx-auto px-6 py-4 flex justify-between items-center">
             <div className="flex items-center gap-3">
-              {/* Animated rotating logo using background videos */}
               <LuxbinTokenLogoRotating size={40} />
               <span className="text-2xl font-bold bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
-                LUXBIN
+                NicheAI
               </span>
             </div>
-            <nav className="hidden md:flex gap-6">
-              {[
-                { name: "About", href: "/about" },
-                { name: "Quantum Blockchain", href: "/quantum-blockchain" },
-                { name: "Quantum AI", href: "/quantum-ai" },
-                { name: "DNA Explorer", href: "/dna-explorer" },
-                { name: "Omnichain", href: "/omnichain-dna" },
-                { name: "Chain Info", href: "#chain" },
-                { name: "Developers", href: "/developers" }
-              ].map((link) => (
-                link.href.startsWith('/') ? (
-                  <Link key={link.name} href={link.href} className="text-gray-300 hover:text-white transition-colors text-sm font-medium">
-                    {link.name}
-                  </Link>
-                ) : (
-                  <a key={link.name} href={link.href} className="text-gray-300 hover:text-white transition-colors text-sm font-medium">
-                    {link.name}
-                  </a>
-                )
-              ))}
-            </nav>
             <WalletButton />
           </div>
         </header>
 
+        {/* Left Sidebar Navigation */}
+        <div className="fixed left-0 top-20 bottom-0 w-64 bg-black/40 backdrop-blur-xl border-r border-white/10 overflow-y-auto z-40 hidden md:block">
+          <nav className="p-4 space-y-2">
+            {/* AI Section Header */}
+            <div className="px-4 py-2 text-xs font-bold text-purple-400 uppercase tracking-wider">
+              AI Companions
+            </div>
+            {[
+              { name: "Aurora AI", href: "/aurora", icon: "💕", highlight: true },
+              { name: "Atlas AI", href: "/atlas", icon: "💪", highlight: true },
+            ].map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                className="flex items-center gap-3 px-4 py-3 rounded-xl text-white bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-500/30 transition-all text-sm font-medium shadow-lg"
+              >
+                <span className="text-xl">{link.icon}</span>
+                <span>{link.name}</span>
+              </Link>
+            ))}
+
+            {/* Quantum Section Header */}
+            <div className="px-4 py-2 mt-4 text-xs font-bold text-blue-400 uppercase tracking-wider">
+              Quantum Network
+            </div>
+            {[
+              { name: "Quantum Internet", href: "/quantum-internet", icon: "⚛️", highlight: true },
+            ].map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                className="flex items-center gap-3 px-4 py-3 rounded-xl text-white bg-gradient-to-r from-blue-500/20 to-indigo-500/20 hover:from-blue-500/30 hover:to-indigo-500/30 border border-blue-500/30 transition-all text-sm font-medium shadow-lg"
+              >
+                <span className="text-xl">{link.icon}</span>
+                <span>{link.name}</span>
+              </Link>
+            ))}
+
+            {/* Platform Section Header */}
+            <div className="px-4 py-2 mt-4 text-xs font-bold text-gray-400 uppercase tracking-wider">
+              Platform
+            </div>
+            {[
+              { name: "About", href: "/about", icon: "ℹ️" },
+              { name: "Quantum AI", href: "/quantum-ai", icon: "⚛️" },
+              { name: "Mirror", href: "/mirror", icon: "🔮" },
+              { name: "Research", href: "/research", icon: "🔬" },
+              { name: "Developers", href: "/developers", icon: "👨‍💻" },
+              { name: "DNA Explorer", href: "/dna-explorer", icon: "🧬" },
+              { name: "Lightshow", href: "/lightshow", icon: "🌈" },
+              { name: "Translator", href: "/light-translator", icon: "✨" },
+              { name: "Omnichain", href: "/omnichain-dna", icon: "🔗" },
+              { name: "Chain Info", href: "#chain", icon: "⛓️" },
+              { name: "Buy LUX", href: "#buy", icon: "💰" },
+              { name: "Deploy Token", href: "#deploy", icon: "🚀" }
+            ].map((link) => (
+              link.href.startsWith('/') ? (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition-all text-sm font-medium"
+                >
+                  <span className="text-xl">{link.icon}</span>
+                  <span>{link.name}</span>
+                </Link>
+              ) : (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition-all text-sm font-medium"
+                >
+                  <span className="text-xl">{link.icon}</span>
+                  <span>{link.name}</span>
+                </a>
+              )
+            ))}
+          </nav>
+        </div>
+
+        {/* Main Content with left margin for sidebar */}
+        <div className="md:ml-64">
+
         <section className="relative px-6 pt-20 pb-32">
           <div className="max-w-6xl mx-auto text-center">
             <h1 className="text-6xl md:text-8xl font-bold italic mb-6 bg-gradient-to-r from-purple-400 via-yellow-300 to-purple-400 bg-clip-text text-transparent leading-tight animate-glow drop-shadow-[0_0_15px_rgba(251,191,36,0.5)]">
-              Meet LUXBIN AI
+              Meet NicheAI
             </h1>
             <p className="text-2xl md:text-3xl text-gray-200 mb-4 font-light">
               Your Intelligent, Conversational AI Assistant
@@ -94,6 +156,112 @@ export default function Home() {
           </div>
         </section>
 
+        {/* AI Companions Showcase */}
+        <section className="relative px-6 py-20">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-5xl font-bold mb-4 bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+                Meet Our AI Companions
+              </h2>
+              <p className="text-xl text-gray-300">
+                Quantum-powered AI with unique personalities and capabilities
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              {/* Aurora Card */}
+              <Link href="/aurora" className="group">
+                <div className="bg-gradient-to-br from-pink-500/20 via-purple-500/20 to-blue-500/20 backdrop-blur-xl border border-pink-500/30 rounded-3xl p-8 shadow-2xl hover:shadow-pink-500/50 transition-all hover:scale-105">
+                  <div className="text-6xl mb-4 group-hover:animate-bounce">💕</div>
+                  <h3 className="text-3xl font-bold mb-3 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                    Aurora
+                  </h3>
+                  <p className="text-gray-300 mb-4">
+                    Smart Feminine AI with emotional intelligence, empathy, and intuition
+                  </p>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center gap-2">
+                      <span className="text-pink-400">💕</span>
+                      <span className="text-gray-400">Empathy: 0.9/1.0</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-purple-400">✨</span>
+                      <span className="text-gray-400">Intuition: 0.8/1.0</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-blue-400">🌸</span>
+                      <span className="text-gray-400">Nurturing: 0.9/1.0</span>
+                    </div>
+                  </div>
+                  <div className="mt-6 text-pink-400 font-semibold group-hover:translate-x-2 transition-transform">
+                    Meet Aurora →
+                  </div>
+                </div>
+              </Link>
+
+              {/* Atlas Card */}
+              <Link href="/atlas" className="group">
+                <div className="bg-gradient-to-br from-blue-500/20 via-slate-500/20 to-gray-500/20 backdrop-blur-xl border border-blue-500/30 rounded-3xl p-8 shadow-2xl hover:shadow-blue-500/50 transition-all hover:scale-105">
+                  <div className="text-6xl mb-4 group-hover:animate-pulse">💪</div>
+                  <h3 className="text-3xl font-bold mb-3 bg-gradient-to-r from-blue-400 to-slate-400 bg-clip-text text-transparent">
+                    Atlas
+                  </h3>
+                  <p className="text-gray-300 mb-4">
+                    Smart Masculine AI with strategic leadership and protective strength
+                  </p>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center gap-2">
+                      <span className="text-blue-400">💪</span>
+                      <span className="text-gray-400">Strength: 0.9/1.0</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-slate-400">🛡️</span>
+                      <span className="text-gray-400">Protection: 0.9/1.0</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-gray-400">🎯</span>
+                      <span className="text-gray-400">Strategy: 0.7/1.0</span>
+                    </div>
+                  </div>
+                  <div className="mt-6 text-blue-400 font-semibold group-hover:translate-x-2 transition-transform">
+                    Meet Atlas →
+                  </div>
+                </div>
+              </Link>
+
+              {/* Quantum Internet Card */}
+              <Link href="/quantum-internet" className="group">
+                <div className="bg-gradient-to-br from-purple-500/20 via-blue-500/20 to-indigo-500/20 backdrop-blur-xl border border-purple-500/30 rounded-3xl p-8 shadow-2xl hover:shadow-purple-500/50 transition-all hover:scale-105">
+                  <div className="text-6xl mb-4 group-hover:animate-spin-slow">⚛️</div>
+                  <h3 className="text-3xl font-bold mb-3 bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
+                    Quantum Internet
+                  </h3>
+                  <p className="text-gray-300 mb-4">
+                    Real quantum computing on 3 IBM quantum computers
+                  </p>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center gap-2">
+                      <span className="text-purple-400">💻</span>
+                      <span className="text-gray-400">3 Quantum Computers</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-blue-400">⚛️</span>
+                      <span className="text-gray-400">445 Total Qubits</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-indigo-400">🔗</span>
+                      <span className="text-gray-400">Quantum Entangled</span>
+                    </div>
+                  </div>
+                  <div className="mt-6 text-purple-400 font-semibold group-hover:translate-x-2 transition-transform">
+                    Explore Network →
+                  </div>
+                </div>
+              </Link>
+            </div>
+          </div>
+        </section>
+
         {/* DNA Helix Visualization */}
         <section className="relative px-6 py-12">
           <div className="max-w-6xl mx-auto">
@@ -102,7 +270,7 @@ export default function Home() {
                 Live Blockchain DNA
               </h2>
               <p className="text-gray-300 text-lg">
-                Watch the LUXBIN blockchain in real-time as transactions flow through the network
+                Watch the LUXBIN Chain in real-time as transactions flow through the network
               </p>
             </div>
             <div className="bg-white/5 backdrop-blur-xl border border-purple-500/30 rounded-3xl p-2 shadow-2xl shadow-purple-500/20">
@@ -349,7 +517,7 @@ export default function Home() {
         <section id="buy" className="relative px-6 py-20">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">Get LUXBIN Tokens</h2>
+              <h2 className="text-4xl font-bold mb-4">Get LUX Tokens</h2>
               <p className="text-gray-400 text-lg">Choose your token - LUX (Quantum) featured, LUXBIN (Legacy) available</p>
             </div>
 
@@ -391,9 +559,9 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Earn LUXBIN */}
+            {/* Earn Tokens */}
             <div className="bg-gradient-to-r from-green-500/10 to-blue-500/10 border border-green-500/30 rounded-2xl p-8">
-              <h3 className="text-2xl font-bold mb-4 text-center">🏗️ Earn LUXBIN Tokens</h3>
+              <h3 className="text-2xl font-bold mb-4 text-center">🏗️ Earn LUX Tokens</h3>
               <p className="text-gray-300 mb-6 text-center">Build, validate, or contribute to earn LUX rewards</p>
 
               <div className="grid md:grid-cols-3 gap-4">
@@ -445,12 +613,12 @@ export default function Home() {
         <section className="relative px-6 py-20">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">Why LUXBIN?</h2>
-              <p className="text-gray-400 text-lg">Revolutionary blockchain technology</p>
+              <h2 className="text-4xl font-bold mb-4">Why NicheAI?</h2>
+              <p className="text-gray-400 text-lg">Revolutionary AI and blockchain technology</p>
             </div>
             <div className="grid md:grid-cols-3 gap-6">
               {[
-                { icon: "💸", title: "Zero Gas Fees", description: "Deploy unlimited smart contracts without paying a single cent in transaction fees. LUXBIN is completely gasless." },
+                { icon: "💸", title: "Zero Gas Fees", description: "Deploy unlimited smart contracts without paying a single cent in transaction fees. LUXBIN Chain is completely gasless." },
                 { icon: "⚡", title: "Lightning Fast", description: "6-second block finality with Aura + GRANDPA consensus. Fast enough for real-time applications." },
                 { icon: "🎯", title: "Coinbase Smart Wallet", description: "First Substrate chain with ERC-4337 account abstraction. Native support for Coinbase Smart Wallets with social recovery, batch ops, and gasless transactions." },
                 { icon: "🔐", title: "Quantum Resistant", description: "Built with quantum cryptography and advanced security patterns to resist future quantum computing attacks." },
@@ -527,10 +695,10 @@ export default function Home() {
             </div>
             <div className="text-center text-gray-500 text-sm pt-8 border-t border-white/10">
               <p className="mb-2">
-                LUXBIN - The World's First Gasless Layer 1 Blockchain
+                NicheAI - Where Quantum AI Meets Blockchain Innovation
               </p>
               <p className="text-xs">
-                Created by Nichole Christie • © 2024 LUXBIN Protocol • Open Source
+                Created by Nichole Christie • © 2024 NicheAI • Open Source
               </p>
               <p className="text-xs mt-2">
                 Contact: <a href="mailto:Nicholechristie555@gmail.com" className="text-purple-400 hover:text-purple-300">Nicholechristie555@gmail.com</a>
@@ -538,10 +706,12 @@ export default function Home() {
             </div>
           </div>
         </footer>
+        </div>
       </div>
 
-      {/* AI Chatbot with Animated Avatar */}
-      <FloatingChatWidget />
+      {/* AI Chatbots - Aurora & Atlas */}
+      <AuroraChatWidget />
+      <AtlasChatWidget />
 
       {/* Coinbase Paymaster Status Widget */}
       <CoinbasePaymasterStatus />
