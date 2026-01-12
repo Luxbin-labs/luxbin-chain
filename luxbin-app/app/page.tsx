@@ -5,7 +5,8 @@ import { BackgroundVideos } from "@/components/BackgroundVideos";
 import { LuxbinSwap } from "@/components/LuxbinSwap";
 import { CoinbaseOnramp } from "@/components/CoinbaseOnramp";
 import { LuxbinTokenLogoRotating, LuxbinTokenLogo } from "@/components/AnimatedTokenLogo";
-import { FloatingChatWidget } from "@/components/FloatingChatWidget";
+import { AuroraChatWidget } from "@/components/FloatingChatWidget";
+import { AtlasChatWidget } from "@/components/AtlasChatWidget";
 import { TokenDeployer } from "@/components/TokenDeployer";
 import { NFTDeployer } from "@/components/NFTDeployer";
 import { CoinbasePaymasterStatus } from "@/components/CoinbasePaymasterStatus";
@@ -708,8 +709,9 @@ export default function Home() {
         </div>
       </div>
 
-      {/* AI Chatbot with Animated Avatar */}
-      <FloatingChatWidget />
+      {/* AI Chatbots - Aurora & Atlas */}
+      <AuroraChatWidget />
+      <AtlasChatWidget />
 
       {/* Coinbase Paymaster Status Widget */}
       <CoinbasePaymasterStatus />
