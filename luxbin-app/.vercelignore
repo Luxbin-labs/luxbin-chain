@@ -1,0 +1,6 @@
+luxbin-app/**
+node_modules/**
+.next/**
+*.md
+quantum_results_*
+frankenstein_video.mp4
