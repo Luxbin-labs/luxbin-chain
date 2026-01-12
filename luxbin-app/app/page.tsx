@@ -38,6 +38,45 @@ export default function Home() {
         {/* Left Sidebar Navigation */}
         <div className="fixed left-0 top-20 bottom-0 w-64 bg-black/40 backdrop-blur-xl border-r border-white/10 overflow-y-auto z-40 hidden md:block">
           <nav className="p-4 space-y-2">
+            {/* AI Section Header */}
+            <div className="px-4 py-2 text-xs font-bold text-purple-400 uppercase tracking-wider">
+              AI Companions
+            </div>
+            {[
+              { name: "Aurora AI", href: "/aurora", icon: "💕", highlight: true },
+              { name: "Atlas AI", href: "/atlas", icon: "💪", highlight: true },
+            ].map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                className="flex items-center gap-3 px-4 py-3 rounded-xl text-white bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-500/30 transition-all text-sm font-medium shadow-lg"
+              >
+                <span className="text-xl">{link.icon}</span>
+                <span>{link.name}</span>
+              </Link>
+            ))}
+
+            {/* Quantum Section Header */}
+            <div className="px-4 py-2 mt-4 text-xs font-bold text-blue-400 uppercase tracking-wider">
+              Quantum Network
+            </div>
+            {[
+              { name: "Quantum Internet", href: "/quantum-internet", icon: "⚛️", highlight: true },
+            ].map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                className="flex items-center gap-3 px-4 py-3 rounded-xl text-white bg-gradient-to-r from-blue-500/20 to-indigo-500/20 hover:from-blue-500/30 hover:to-indigo-500/30 border border-blue-500/30 transition-all text-sm font-medium shadow-lg"
+              >
+                <span className="text-xl">{link.icon}</span>
+                <span>{link.name}</span>
+              </Link>
+            ))}
+
+            {/* Platform Section Header */}
+            <div className="px-4 py-2 mt-4 text-xs font-bold text-gray-400 uppercase tracking-wider">
+              Platform
+            </div>
             {[
               { name: "About", href: "/about", icon: "ℹ️" },
               { name: "Quantum AI", href: "/quantum-ai", icon: "⚛️" },
@@ -112,6 +151,112 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                 </svg>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* AI Companions Showcase */}
+        <section className="relative px-6 py-20">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-5xl font-bold mb-4 bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+                Meet Our AI Companions
+              </h2>
+              <p className="text-xl text-gray-300">
+                Quantum-powered AI with unique personalities and capabilities
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              {/* Aurora Card */}
+              <Link href="/aurora" className="group">
+                <div className="bg-gradient-to-br from-pink-500/20 via-purple-500/20 to-blue-500/20 backdrop-blur-xl border border-pink-500/30 rounded-3xl p-8 shadow-2xl hover:shadow-pink-500/50 transition-all hover:scale-105">
+                  <div className="text-6xl mb-4 group-hover:animate-bounce">💕</div>
+                  <h3 className="text-3xl font-bold mb-3 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                    Aurora
+                  </h3>
+                  <p className="text-gray-300 mb-4">
+                    Smart Feminine AI with emotional intelligence, empathy, and intuition
+                  </p>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center gap-2">
+                      <span className="text-pink-400">💕</span>
+                      <span className="text-gray-400">Empathy: 0.9/1.0</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-purple-400">✨</span>
+                      <span className="text-gray-400">Intuition: 0.8/1.0</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-blue-400">🌸</span>
+                      <span className="text-gray-400">Nurturing: 0.9/1.0</span>
+                    </div>
+                  </div>
+                  <div className="mt-6 text-pink-400 font-semibold group-hover:translate-x-2 transition-transform">
+                    Meet Aurora →
+                  </div>
+                </div>
+              </Link>
+
+              {/* Atlas Card */}
+              <Link href="/atlas" className="group">
+                <div className="bg-gradient-to-br from-blue-500/20 via-slate-500/20 to-gray-500/20 backdrop-blur-xl border border-blue-500/30 rounded-3xl p-8 shadow-2xl hover:shadow-blue-500/50 transition-all hover:scale-105">
+                  <div className="text-6xl mb-4 group-hover:animate-pulse">💪</div>
+                  <h3 className="text-3xl font-bold mb-3 bg-gradient-to-r from-blue-400 to-slate-400 bg-clip-text text-transparent">
+                    Atlas
+                  </h3>
+                  <p className="text-gray-300 mb-4">
+                    Smart Masculine AI with strategic leadership and protective strength
+                  </p>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center gap-2">
+                      <span className="text-blue-400">💪</span>
+                      <span className="text-gray-400">Strength: 0.9/1.0</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-slate-400">🛡️</span>
+                      <span className="text-gray-400">Protection: 0.9/1.0</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-gray-400">🎯</span>
+                      <span className="text-gray-400">Strategy: 0.7/1.0</span>
+                    </div>
+                  </div>
+                  <div className="mt-6 text-blue-400 font-semibold group-hover:translate-x-2 transition-transform">
+                    Meet Atlas →
+                  </div>
+                </div>
+              </Link>
+
+              {/* Quantum Internet Card */}
+              <Link href="/quantum-internet" className="group">
+                <div className="bg-gradient-to-br from-purple-500/20 via-blue-500/20 to-indigo-500/20 backdrop-blur-xl border border-purple-500/30 rounded-3xl p-8 shadow-2xl hover:shadow-purple-500/50 transition-all hover:scale-105">
+                  <div className="text-6xl mb-4 group-hover:animate-spin-slow">⚛️</div>
+                  <h3 className="text-3xl font-bold mb-3 bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
+                    Quantum Internet
+                  </h3>
+                  <p className="text-gray-300 mb-4">
+                    Real quantum computing on 3 IBM quantum computers
+                  </p>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center gap-2">
+                      <span className="text-purple-400">💻</span>
+                      <span className="text-gray-400">3 Quantum Computers</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-blue-400">⚛️</span>
+                      <span className="text-gray-400">445 Total Qubits</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-indigo-400">🔗</span>
+                      <span className="text-gray-400">Quantum Entangled</span>
+                    </div>
+                  </div>
+                  <div className="mt-6 text-purple-400 font-semibold group-hover:translate-x-2 transition-transform">
+                    Explore Network →
+                  </div>
+                </div>
+              </Link>
             </div>
           </div>
         </section>
