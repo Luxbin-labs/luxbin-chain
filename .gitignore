@@ -94,3 +94,11 @@ Library/Application Support/Epic/
 
 # Desktop temporary files
 Desktop/Other/
+
+# Quantum Wallet Security - Sensitive Files
+recovery_kit_*.json
+test_wallet_config.json
+quantum_validator_*.json
+ibm_quantum_credentials.json
+**/recovery_kit_*.json
+**/test_wallet_config.json
