@@ -23,7 +23,7 @@ LUXBIN Chain is part of the larger NicheAI ecosystem:
 
 - **[NicheAI Platform](https://github.com/mermaidnicheboutique-code/nicheai)** - Aurora & Atlas AI companions, main application
 - **[Quantum Internet](https://github.com/mermaidnicheboutique-code/quantum-internet)** - 445 qubits across 3 IBM quantum computers
-- **[Light Language](https://github.com/mermaidnicheboutique-code/Luxbin-light-language)** - Binary-to-photonic translation system
+- **[Light Language](https://github.com/mermaidnicheboutique-code/Luxbin-light-language)** - Binary-to-photonic translation with frequency comb technology
 - **[Quantum AI](https://github.com/mermaidnicheboutique-code/luxbin-quantum-ai)** - Self-sustaining quantum AI organism
 
 ## 🚀 Key Components
