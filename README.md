@@ -2,6 +2,8 @@
 
 **Part of the NicheAI Ecosystem**
 
+**Website**: [nichechristie-site.vercel.app](https://nichechristie-site.vercel.app/)
+
 LUXBIN Chain is a revolutionary gasless Layer 1 blockchain built with Substrate, featuring zero transaction fees, 6-second block finality, and ERC-4337 account abstraction support.
 
 > **Note**: Looking for the NicheAI platform with Aurora & Atlas AI companions? Visit [nicheai](https://github.com/mermaidnicheboutique-code/nicheai)
